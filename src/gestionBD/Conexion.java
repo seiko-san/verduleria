@@ -12,12 +12,14 @@ import javax.swing.JTextField;
 
 
 public class Conexion {
+    
+    
 
-      String user = "root";
-      String pass = "";
-      String nombreBD = "verduleria";
-      String driver = "com.mysql.jdbc.Driver";
-      String url = "jdbc:mysql://localhost:3306/" + nombreBD;
+      public String user = "root";
+      public String pass = "";
+      public String nombreBD = "verduleria";
+      public String driver = "com.mysql.jdbc.Driver";
+      public String url = "jdbc:mysql://localhost:3306/" + nombreBD;
 
     public Connection conectar() {
         Connection conexion = null;

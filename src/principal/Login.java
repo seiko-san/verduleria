@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author seiko
@@ -138,17 +139,37 @@ public class Login extends javax.swing.JFrame {
     private void btnenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenviarActionPerformed
         Panel_compras compra = new Panel_compras();
 
-        String nick = txtnick.getText();
-        String clave = txtclave.getText();
+        if(buscar.valida_ingreso()==1){
+            this.dispose();
+            JOptionPane.showMessageDialog(null, "Bienvenido(a)\n Has ingresado"+
+                    "satisfactoriamente al sistema","Mensaje de bienvenida",
+                    JOptionPane.INFORMATION_MESSAGE);
+            
+            Panel_compras panel = new Panel_compras();
+            panel.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Acceso denegado\n por favor"+
+                    "intentelo nuevamente","acceso denegado",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+//        String nick = txtnick.getText();
+//        String clave = txtclave.getText();
 
-        buscar.Busq_vendedor(nick, clave, txtnick, txtnick);
-        try {
-            if (txtnick.getText().equals("invitado") && txtclave.getText().equals("invitado")) {
-                JOptionPane.showMessageDialog(this, "Has iniciado con modo invitado");
-                compra.lblnombre.setText("invitado");
-                compra.setVisible(true);
-                this.dispose();
-            }
+//        buscar.Busq_vendedor(nick, clave, txtnick, txtnick);
+//        try {
+//            if (txtnick.getText().equals("invitado") && txtclave.getText().equals("invitado")) {
+//                JOptionPane.showMessageDialog(this, "Has iniciado con modo invitado");
+//                compra.lblnombre.setText("invitado");
+//                compra.setVisible(true);
+//                this.dispose();
+//            }
+            
+            
+            
+            
+            
 //                else if (busq_vendedor.equals("encontrado")) {
 //                String vendedor = buscar.Busq_nom(txtnick.getText());
 //                JOptionPane.showMessageDialog(this, "Bienvenido (a) \n" + vendedor);
@@ -158,9 +179,9 @@ public class Login extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(this, "Datos incorrectos");
 //            }
 
-        } catch (Exception e) {
-
-        }
+//        } catch (Exception e) {
+//
+//        }
 
 //        String nick = txtnick.getText();
 //        String clave = txtclave.getText();
@@ -211,7 +232,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField txtclave;
-    private javax.swing.JTextField txtnick;
+    public static javax.swing.JPasswordField txtclave;
+    public static javax.swing.JTextField txtnick;
     // End of variables declaration//GEN-END:variables
 }
