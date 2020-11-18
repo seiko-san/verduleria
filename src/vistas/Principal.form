@@ -4,19 +4,22 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jmRealizarVenta">
+        <Menu class="javax.swing.JMenu" name="jmVentas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ventas"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="jmRealizarVentas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Realizar venta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmRealizarVentasActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jmVerClientes">
+        <Menu class="javax.swing.JMenu" name="jmAgregarCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Clientes"/>
           </Properties>

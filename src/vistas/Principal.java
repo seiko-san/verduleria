@@ -31,21 +31,26 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jmRealizarVenta = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jmVerClientes = new javax.swing.JMenu();
+        jmVentas = new javax.swing.JMenu();
+        jmRealizarVentas = new javax.swing.JMenuItem();
+        jmAgregarCliente = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jmRealizarVenta.setText("Ventas");
+        jmVentas.setText("Ventas");
 
-        jMenuItem1.setText("Realizar venta");
-        jmRealizarVenta.add(jMenuItem1);
+        jmRealizarVentas.setText("Realizar venta");
+        jmRealizarVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmRealizarVentasActionPerformed(evt);
+            }
+        });
+        jmVentas.add(jmRealizarVentas);
 
-        jMenuBar1.add(jmRealizarVenta);
+        jMenuBar1.add(jmVentas);
 
-        jmVerClientes.setText("Clientes");
+        jmAgregarCliente.setText("Clientes");
 
         jMenuItem2.setText("Ver clientes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -53,9 +58,9 @@ public class Principal extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jmVerClientes.add(jMenuItem2);
+        jmAgregarCliente.add(jMenuItem2);
 
-        jMenuBar1.add(jmVerClientes);
+        jMenuBar1.add(jmAgregarCliente);
 
         setJMenuBar(jMenuBar1);
 
@@ -74,8 +79,18 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        
+        AgregarCliente agregarCliente = new AgregarCliente();
+        
+        agregarCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jmRealizarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmRealizarVentasActionPerformed
+        RealizarVenta realizarVenta =  new RealizarVenta();
+        
+        realizarVenta.setVisible(true);
+        
+    }//GEN-LAST:event_jmRealizarVentasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,9 +129,9 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenu jmRealizarVenta;
-    private javax.swing.JMenu jmVerClientes;
+    private javax.swing.JMenu jmAgregarCliente;
+    private javax.swing.JMenuItem jmRealizarVentas;
+    private javax.swing.JMenu jmVentas;
     // End of variables declaration//GEN-END:variables
 }
