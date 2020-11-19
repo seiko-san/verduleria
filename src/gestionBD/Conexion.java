@@ -16,7 +16,7 @@ public class Conexion {
     public static String pass = "";
     public static String nombreBD = "verduleria";
     public static String driver = "com.mysql.jdbc.Driver";
-    public static String url = "jdbc:mysql://localhost:81/" + nombreBD;
+    public static String url = "jdbc:mysql://localhost:3306/" + nombreBD;
     public static Connection conexion; 
 
     public static Connection conectar() {
@@ -26,10 +26,10 @@ public class Conexion {
         try {
 
             Class.forName(driver);
-            conexion = DriverManager.getConnection(url, user, pass);
+            conexion = (Connection) DriverManager.getConnection(url, user, pass);
 
             System.out.print("conectados a la BD!");
-            conexion.close();
+//            conexion.close();
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.print("Error: " + e.getMessage());
