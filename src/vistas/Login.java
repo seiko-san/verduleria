@@ -5,6 +5,9 @@
  */
 package vistas;
 
+import gestionBD.IngresoLogin;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joako
@@ -14,10 +17,14 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    IngresoLogin llenarCombobox = new IngresoLogin();
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+
+        llenarCombobox.llenarCombobox(cbxSucursal);
     }
 
     /**
@@ -49,9 +56,18 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Sucursal");
 
-        cbxSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSucursalActionPerformed(evt);
+            }
+        });
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,12 +82,12 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxSucursal, 0, 128, Short.MAX_VALUE)
+                            .addComponent(cbxSucursal, 0, 163, Short.MAX_VALUE)
                             .addComponent(jtxtUsuario)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
+                        .addGap(166, 166, 166)
                         .addComponent(btnIngresar)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,9 +100,9 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cbxSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
                 .addComponent(btnIngresar)
-                .addGap(84, 84, 84))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         pack();
@@ -95,6 +111,28 @@ public class Login extends javax.swing.JFrame {
     private void jtxtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtUsuarioActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+
+        Principal principal = new Principal();
+        IngresoLogin ingreso = new IngresoLogin();
+        
+        String usuario = jtxtUsuario.getText();
+        String sucursal = (String) cbxSucursal.getSelectedItem();
+            
+        if (ingreso.validarIngreso(usuario, sucursal) == 1) {
+            
+            principal.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
+        }
+
+
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void cbxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSucursalActionPerformed
 
     /**
      * @param args the command line arguments
