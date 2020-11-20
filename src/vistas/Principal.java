@@ -25,7 +25,7 @@ public class Principal extends javax.swing.JFrame implements Runnable{
      lblfecha.setText(fecha());
      hilo=new Thread(this);
      hilo.start();
-     setVisible(true);
+     //setVisible(true);
     }
     public void hora(){
         Calendar calendario = new GregorianCalendar();
