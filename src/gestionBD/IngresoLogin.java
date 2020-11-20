@@ -60,7 +60,7 @@ public class IngresoLogin {
                 resultado = 1;
             }
 
-           
+            
 
             Conexion.cerrar();
         } catch (SQLException e) {

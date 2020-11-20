@@ -7,7 +7,7 @@ package vistas;
 
 import gestionBD.IngresoLogin;
 import javax.swing.JOptionPane;
-
+import vistas.Principal;
 /**
  *
  * @author joako
@@ -82,12 +82,12 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxSucursal, 0, 163, Short.MAX_VALUE)
+                            .addComponent(cbxSucursal, 0, 183, Short.MAX_VALUE)
                             .addComponent(jtxtUsuario)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addComponent(btnIngresar)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,8 +126,14 @@ public class Login extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
         }
+        
 
-
+        Principal ver = new Principal();
+        ver.setVisible(true);
+        String nombre = jtxtUsuario.getText();
+        ver.lblvendedor.setText(nombre);
+        String suc = cbxSucursal.getSelectedItem().toString();
+        ver.lblsucursal.setText(suc);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void cbxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSucursalActionPerformed
@@ -171,9 +177,9 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
-    private javax.swing.JComboBox<String> cbxSucursal;
+    public javax.swing.JComboBox<String> cbxSucursal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jtxtUsuario;
+    public javax.swing.JTextField jtxtUsuario;
     // End of variables declaration//GEN-END:variables
 }
