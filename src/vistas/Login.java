@@ -119,17 +119,18 @@ public class Login extends javax.swing.JFrame {
         
         String usuario = jtxtUsuario.getText();
         String sucursal = (String) cbxSucursal.getSelectedItem();
+            Principal ver = new Principal();
             
         if (ingreso.validarIngreso(usuario, sucursal) == 1) {
             
-            principal.setVisible(true);
+           ver.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
         }
         
 
-        Principal ver = new Principal();
-        ver.setVisible(true);
+        
+        
         String nombre = jtxtUsuario.getText();
         ver.lblvendedor.setText(nombre);
         String suc = cbxSucursal.getSelectedItem().toString();
