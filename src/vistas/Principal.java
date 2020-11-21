@@ -20,7 +20,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
     String hora, minutos, segundos;
     Thread hilo;
-
+ 
+    
     /**
      * Creates new form Principal
      */
@@ -34,7 +35,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         hilo = new Thread(this);
         hilo.start();
         //setVisible(true);
-
+      
         crudProd.mostrarProductos(jtProductos);
     }
 
@@ -54,6 +55,20 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             hora();
             lblhora.setText(hora + ":" + minutos + ":" + segundos);
         }
+    }
+
+    public void AgregarCliente() {
+
+        JOptionPane.showMessageDialog(null, "estas aca");
+        
+        
+        panel_productos.setSelectedIndex(1);
+//        System.out.println("asd");
+//        JPCliente.add(JPCliente);
+//        JPCliente.isVisible();
+        
+        
+        
     }
 
     /**
@@ -109,7 +124,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton5 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
+        JPCliente = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
@@ -240,6 +255,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         jButton2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel10.setText("Nombre Producto:");
@@ -509,18 +529,18 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         panel_productos.addTab("Realizar Venta", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout JPClienteLayout = new javax.swing.GroupLayout(JPCliente);
+        JPCliente.setLayout(JPClienteLayout);
+        JPClienteLayout.setHorizontalGroup(
+            JPClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1331, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        JPClienteLayout.setVerticalGroup(
+            JPClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 803, Short.MAX_VALUE)
         );
 
-        panel_productos.addTab("Nuevo Cliente", jPanel2);
+        panel_productos.addTab("Nuevo Cliente", JPCliente);
 
         jPanel9.setBackground(new java.awt.Color(204, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -715,7 +735,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         crudProd.eliminarProd(productos.getSku());
         crudProd.mostrarProductos(jtProductos);
-        
+
         txtSku.setText("");
         txtCodigoProd.setText("");
         txtNombreProd.setText("");
@@ -737,7 +757,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo());
 
         crudProd.mostrarProductos(jtProductos);
-        
+
         txtSku.setText("");
         txtCodigoProd.setText("");
         txtNombreProd.setText("");
@@ -767,7 +787,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtPrecio.setText("");
         txtDesc.setText("");
         txtPromo.setText("");
-        
 
 
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -775,6 +794,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private void txtSkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSkuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSkuActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        panel_productos.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -818,6 +841,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel JPCliente;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
@@ -849,7 +873,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -873,7 +896,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblsucursal;
     public static javax.swing.JLabel lblvendedor;
-    private javax.swing.JTabbedPane panel_productos;
+    public javax.swing.JTabbedPane panel_productos;
     private javax.swing.JTextField txtCodigoProd;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtNombreProd;

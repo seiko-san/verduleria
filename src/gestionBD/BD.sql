@@ -9,7 +9,7 @@ CREATE TABLE Clientes (
   `rut_cliente` varchar(10) NOT NULL,
   `nombre_cliente` VARCHAR(45) NOT NULL,
   `correo_cliente` VARCHAR(45) NOT NULL,
-  `telefono_cliente` INT NOT NULL,
+  `telefono_cliente` varchar(9) NOT NULL,
   `direccion_cliente` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`rut_cliente`));
 
@@ -135,4 +135,4 @@ VALUES('001','Juan Perez',1);
 select * from clientes
 
 INSERT INTO clientes(`rut_cliente`,`nombre_cliente`,`correo_cliente`,`telefono_cliente`,`direccion_cliente`)
-VALUES('17679912-9','Pedro gatica','pgatica@gmail.com',123456789,'Santiago');
+VALUES('17679912-9','Pedro gatica','pgatica@gmail.com','96159286','Santiago');

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import vistas.Principal;
 
 
 /**
@@ -43,7 +44,9 @@ public class Cliente {
                 System.out.println(opcion);
                 
                 if(opcion == 0){
-                    AgregarCliente();
+                    Principal p = new Principal();
+                    p.panel_productos.setSelectedIndex(1);
+                    //p.AgregarCliente();
                 }
 
             }
@@ -55,16 +58,22 @@ public class Cliente {
         }
     }
     
-    public void AgregarCliente(){
-        
-        String rut="";
-        String nombre="";
-        String correo="";
-        int telefono=0;
-        String direccion="";
-        
-        JOptionPane.showInputDialog(null, "Rut Cliente " + rut + " Nombre Cliente "
-                + nombre + " Correo Cliente " + correo + " Telefono Cliente " + telefono + " Direccion Cliente" + direccion);
-    }
+//    public void AgregarCliente(){
+//        
+//        String rut="";
+//        String nombre="";
+//        String correo="";
+//        String telefono="";
+//        String direccion="";
+//        
+//        String rut_cliente = JOptionPane.showInputDialog(null, "Rut Cliente " + rut);
+//        String nombre_cliente = JOptionPane.showInputDialog(null, " Nombre Cliente " + nombre);
+//        String correo_cliente = JOptionPane.showInputDialog(null, " Correo Cliente " + correo);
+//        String telefono_cliente = JOptionPane.showInputDialog(null, " Telefono Cliente " + telefono);
+//        String direccion_cliente = JOptionPane.showInputDialog(null, " Direccion Cliente" + direccion);
+//        
+//        System.out.println(rut_cliente + " " + nombre_cliente + " " + " " + correo_cliente + " " + telefono_cliente + " " + direccion_cliente);
+//        
+//    }
     
 }
