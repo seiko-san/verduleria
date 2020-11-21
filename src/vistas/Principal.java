@@ -6,10 +6,16 @@
 package vistas;
 
 import gestionBD.Cliente;
+import gestionBD.Conexion;
 import gestionBD.CrudProductos;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import modelo.Productos;
 
 /**
@@ -35,7 +41,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         hilo = new Thread(this);
         hilo.start();
         //setVisible(true);
-      
+        this.setLocationRelativeTo(null);
+        
         crudProd.mostrarProductos(jtProductos);
     }
 
@@ -56,20 +63,60 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             lblhora.setText(hora + ":" + minutos + ":" + segundos);
         }
     }
+    
+    
+    public void ConsultaCliente(String rut_cliente, JTextField nomnbre_cliente){
+        
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+        int resultado = 0;
 
-    public void AgregarCliente() {
+        
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT * From Clientes where  rut_cliente = '" + rut_cliente + "'");
 
-        JOptionPane.showMessageDialog(null, "estas aca");
-        
-        
-        panel_productos.setSelectedIndex(1);
-//        System.out.println("asd");
-//        JPCliente.add(JPCliente);
-//        JPCliente.isVisible();
-        
-        
-        
+            if(rut_cliente.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
+            }else{
+                
+
+            if (rs.next()) {
+                //resultado = 1;
+                rs.getString(2);
+                nomnbre_cliente.setText(rs.getString(2)); 
+                System.out.println(rs);
+            }else{
+                //JOptionPane.showMessageDialog(null, "No se encontro datos!");
+                int opcion = JOptionPane.showConfirmDialog(null,"No se encontraron referencias\n ¿Desea crear el cliente?", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(opcion);
+                
+                if(opcion == 0){
+                    //Principal p = new Principal();
+                    //p.panel_productos.setSelectedIndex(0);
+                   // p.setVisible(false);
+                    panel_productos.setSelectedIndex(1);
+                    //p.setVisible(true);
+                }
+
+            }
+           }
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.getMessage());
+        }
     }
+    
+    
+    
+    
+    
+    
+
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -394,7 +441,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     .addComponent(txtrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -474,7 +521,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel14)
@@ -633,7 +680,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addComponent(btnAgregar)
@@ -641,7 +687,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addComponent(btnModificar)
                         .addGap(93, 93, 93)
                         .addComponent(btnEliminar)
-                        .addGap(101, 101, 101)))
+                        .addGap(101, 101, 101))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -679,10 +726,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(358, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addGap(327, 327, 327))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -710,10 +757,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String rut = txtrutcliente.getText();
-        Cliente cliente = new Cliente();
+        //Cliente cliente = new Cliente();
 
-        cliente.ConsultaCliente(rut, txtnombrecliente);
-
+        //cliente.ConsultaCliente(rut, txtnombrecliente);
+        ConsultaCliente(rut, txtnombrecliente);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -23,7 +23,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        
         llenarCombobox.llenarCombobox(cbxSucursal);
     }
 
@@ -124,6 +124,7 @@ public class Login extends javax.swing.JFrame {
         if (ingreso.validarIngreso(usuario, sucursal) == 1) {
             
            ver.setVisible(true);
+           this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
         }
@@ -135,6 +136,7 @@ public class Login extends javax.swing.JFrame {
         ver.lblvendedor.setText(nombre);
         String suc = cbxSucursal.getSelectedItem().toString();
         ver.lblsucursal.setText(suc);
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void cbxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSucursalActionPerformed

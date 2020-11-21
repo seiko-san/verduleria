@@ -45,8 +45,10 @@ public class Cliente {
                 
                 if(opcion == 0){
                     Principal p = new Principal();
+                    p.panel_productos.setSelectedIndex(0);
+                    p.setVisible(false);
                     p.panel_productos.setSelectedIndex(1);
-                    //p.AgregarCliente();
+                    p.setVisible(true);
                 }
 
             }
