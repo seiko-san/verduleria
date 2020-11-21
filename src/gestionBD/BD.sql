@@ -6,7 +6,7 @@ USE verduleria ;
 -- Table Clientes
 -- -----------------------------------------------------
 CREATE TABLE Clientes (
-  `rut_cliente` INT NOT NULL,
+  `rut_cliente` varchar(10) NOT NULL,
   `nombre_cliente` VARCHAR(45) NOT NULL,
   `correo_cliente` VARCHAR(45) NOT NULL,
   `telefono_cliente` INT NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE Vendedores (
 CREATE TABLE Ventas (
   `codigo_venta` INT NOT NULL AUTO_INCREMENT,
   `codigo_vendedor` INT NOT NULL,
-  `rut_cliente` INT NOT NULL,
+  `rut_cliente` varchar(10) not null,
   `fecha_venta` DATE NOT NULL,
   PRIMARY KEY (`codigo_venta`),
     FOREIGN KEY (`codigo_vendedor`) REFERENCES Vendedores (`codigo_vendedor`),
@@ -121,3 +121,18 @@ CREATE TABLE Historico_Productos (
   PRIMARY KEY (`codigo_historico_p`),
     FOREIGN KEY (`sku_producto`) REFERENCES Productos (`sku_producto`));
 
+/********************************ALGUNOS INSERT*********************************************/
+
+INSERT INTO tipos_sucursal(`nombre_tipo`)
+VALUES('Fisica'),('Online');
+
+INSERT INTO sucursales (`nombre_sucursal`,`direccion_sucursal`,`id_tipo`)
+VALUES('Verduleria Apoquindo','Apoquindo 1025',1);
+
+INSERT INTO vendedores(`codigo_vendedor`,`nombre_vendedor`,`codigo_sucursal`)
+VALUES('001','Juan Perez',1);
+
+select * from clientes
+
+INSERT INTO clientes(`rut_cliente`,`nombre_cliente`,`correo_cliente`,`telefono_cliente`,`direccion_cliente`)
+VALUES('17679912-9','Pedro gatica','pgatica@gmail.com',123456789,'Santiago');

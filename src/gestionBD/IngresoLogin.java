@@ -53,7 +53,7 @@ public class IngresoLogin {
             con = Conexion.conectar();
             stm = con.createStatement();
             rs = stm.executeQuery("SELECT  codigo_vendedor , nombre_vendedor , sucursales.codigo_sucursal , nombre_sucursal FROM sucursales JOIN "
-                    + "vendedores ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal WHERE nombre_vendedor = '" + usuario + "' and nombre_sucursal='" + sucursal + "'");
+                    + "vendedores ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal WHERE codigo_vendedor = '" + usuario + "' and nombre_sucursal='" + sucursal + "'");
 
             if (rs.next()) {
 

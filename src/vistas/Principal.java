@@ -5,9 +5,11 @@
  */
 package vistas;
 
+import gestionBD.Cliente;
 import gestionBD.CrudProductos;
 import java.util.*;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import modelo.Productos;
 
 /**
@@ -98,7 +100,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtrutcliente = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        txtnombre = new javax.swing.JTextField();
+        txtnombrecliente = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -339,8 +341,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel7.setText("Nombre Cliente:");
 
-        txtnombre.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        txtnombre.setEnabled(false);
+        txtnombrecliente.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtnombrecliente.setEnabled(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -356,7 +358,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                        .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(148, 148, 148)
@@ -375,7 +377,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54))
         );
 
@@ -688,6 +690,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String rut = txtrutcliente.getText();
+        Cliente cliente = new Cliente();
+
+        cliente.ConsultaCliente(rut, txtnombrecliente);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -875,7 +880,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtPromo;
     private javax.swing.JTextField txtSku;
-    public javax.swing.JTextField txtnombre;
+    public javax.swing.JTextField txtnombrecliente;
     private javax.swing.JTextField txtrutcliente;
     // End of variables declaration//GEN-END:variables
 
