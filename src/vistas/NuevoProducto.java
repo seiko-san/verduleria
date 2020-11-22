@@ -27,6 +27,8 @@ public class NuevoProducto extends javax.swing.JFrame {
     Principal ver = new Principal();
     public NuevoProducto() {
         initComponents();
+        listpromocion.setModel(modelo);
+        crudProd.mostrarProductos(jtProductos);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         llenarlista();
