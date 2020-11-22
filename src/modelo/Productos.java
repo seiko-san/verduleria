@@ -10,7 +10,7 @@ package modelo;
  * @author joako
  */
 public class Productos {
-
+    int id;
     String sku;
     String codigo;
     String nombre;
@@ -22,7 +22,8 @@ public class Productos {
     public Productos() {
     }
 
-    public Productos(String sku, String codigo, String nombre, String descripcion, double precio, double iva, int codPromo) {
+    public Productos(int id, String sku, String codigo, String nombre, String descripcion, double precio, double iva, int codPromo) {
+        this.id = id;
         this.sku = sku;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -31,6 +32,16 @@ public class Productos {
         this.iva = iva;
         this.codPromo = codPromo;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
 
     public double getIva() {
         return iva;

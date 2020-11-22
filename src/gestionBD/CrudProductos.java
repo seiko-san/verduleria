@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class CrudProductos {
 
     public boolean ingresarProductos(String sku, String codigo, String nombre,
-            String descripcion, double precio, int codpromo , double iva) {
+            String descripcion, double precio, int codpromo, double iva) {
 
         Connection con = null;
         Statement stm;
@@ -34,7 +34,7 @@ public class CrudProductos {
             resultUpdate = stm.executeUpdate("insert into productos(sku_producto , "
                     + "codigobarra_producto , nombre_producto , descripcion_producto, "
                     + "precio_neto ,precio_iva,codigo_promocion) values('" + sku + "','" + codigo + "',"
-                    + "'" + nombre + "','" + descripcion + "'," + precio + ","+iva+"," + codpromo + ")");
+                    + "'" + nombre + "','" + descripcion + "'," + precio + "," + iva + "," + codpromo + ")");
 
             if (resultUpdate != 0) {
                 Conexion.cerrar();
@@ -57,6 +57,7 @@ public class CrudProductos {
         ResultSet rs;
 
         DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
         modelo.addColumn("SKU");
         modelo.addColumn("Codigo de Barra ");
         modelo.addColumn("Nombre Producto");
@@ -65,25 +66,25 @@ public class CrudProductos {
         modelo.addColumn("IVA");
         modelo.addColumn("Codigo Promocion");
 
-        String[] productos = new String[7];
+        String[] productos = new String[8];
 
         jtProductos.setModel(modelo);
 
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("Select sku_producto , codigobarra_producto , "
+            rs = stm.executeQuery("Select id_producto ,sku_producto , codigobarra_producto , "
                     + "nombre_producto , descripcion_producto ,precio_neto ,precio_iva, codigo_promocion from productos");
 
             while (rs.next()) {
-
-                productos[0] = rs.getString("sku_producto");
-                productos[1] = rs.getString("codigobarra_producto");
-                productos[2] = rs.getString("nombre_producto");
-                productos[3] = rs.getString("descripcion_producto");
-                productos[4] = rs.getString("precio_neto");
-                productos[5] = rs.getString("precio_iva");
-                productos[6] = rs.getString("codigo_promocion");
+                productos[0] = rs.getString("id_producto");
+                productos[1] = rs.getString("sku_producto");
+                productos[2] = rs.getString("codigobarra_producto");
+                productos[3] = rs.getString("nombre_producto");
+                productos[4] = rs.getString("descripcion_producto");
+                productos[5] = rs.getString("precio_neto");
+                productos[6] = rs.getString("precio_iva");
+                productos[7] = rs.getString("codigo_promocion");
 
                 modelo.addRow(productos);
             }
@@ -95,7 +96,7 @@ public class CrudProductos {
 
     }
 
-    public boolean eliminarProd(String sku) {
+    public boolean eliminarProd(int id) {
         Connection con = null;
         Statement stm;
 
@@ -103,7 +104,7 @@ public class CrudProductos {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            resultUpdate = stm.executeUpdate("Delete from productos where sku_producto= " + sku + "");
+            resultUpdate = stm.executeUpdate("Delete from productos where id_producto= " + id + "");
 
             if (resultUpdate != 0) {
                 Conexion.cerrar();
@@ -119,7 +120,7 @@ public class CrudProductos {
         }
     }
 
-    public boolean modificarProd(String sku , String codigo , String nombre , String descripcion , double precio , int codpromo, double iva) {
+    public boolean modificarProd(String sku, String codigo, String nombre, String descripcion, double precio, int codpromo, double iva, int id) {
         Connection con = null;
         Statement stm;
         ResultSet rs;
@@ -129,7 +130,7 @@ public class CrudProductos {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            resultUpdate = stm.executeUpdate("update productos set sku_producto= "+sku+", codigobarra_producto = '"+codigo+"', nombre_producto ='"+nombre+"', descripcion_producto = '"+descripcion+"', precio_neto= "+precio+",precio_iva="+iva+" ,codigo_promocion ="+codpromo+" where sku_producto = "+sku+"");
+            resultUpdate = stm.executeUpdate("update productos set sku_producto= '" + sku + "', codigobarra_producto = '" + codigo + "', nombre_producto ='" + nombre + "', descripcion_producto = '" + descripcion + "', precio_neto= " + precio + ",precio_iva=" + iva + " ,codigo_promocion =" + codpromo + " where id_producto = " + id + "");
             if (resultUpdate != 0) {
                 Conexion.cerrar();
                 JOptionPane.showMessageDialog(null, "El producto se modifico correctamente");
@@ -145,11 +146,7 @@ public class CrudProductos {
             return false;
 
         }
-        
-        
 
     }
-    
-     
 
 }

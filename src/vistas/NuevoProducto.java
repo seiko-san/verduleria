@@ -20,11 +20,12 @@ public class NuevoProducto extends javax.swing.JFrame {
     /**
      * Creates new form NuevoProducto
      */
-    Conexion cn= new Conexion();
+    Conexion cn = new Conexion();
     CrudProductos crudProd = new CrudProductos();
     Productos productos = new Productos();
     DefaultListModel modelo = new DefaultListModel();
     Principal ver = new Principal();
+
     public NuevoProducto() {
         initComponents();
         listpromocion.setModel(modelo);
@@ -64,6 +65,8 @@ public class NuevoProducto extends javax.swing.JFrame {
         btnvolver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtIva = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
@@ -145,6 +148,10 @@ public class NuevoProducto extends javax.swing.JFrame {
 
         jLabel1.setText("IVA");
 
+        jLabel2.setText("ID");
+
+        txtId.setEnabled(false);
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -165,14 +172,17 @@ public class NuevoProducto extends javax.swing.JFrame {
                             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                                 .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtSku, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                             .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                             .addComponent(txtNombreProd, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                            .addComponent(txtIva))
+                            .addComponent(txtIva)
+                            .addComponent(txtId))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
@@ -214,7 +224,11 @@ public class NuevoProducto extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel15)
                                     .addComponent(txtSku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -322,7 +336,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSkuActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        int idlist=listpromocion.getSelectedIndex()+1;
+        int idlist = listpromocion.getSelectedIndex() + 1;
         productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
         productos.setNombre(txtNombreProd.getText());
@@ -332,7 +346,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         productos.setCodPromo(idlist);
         //        productos.setText((String)lista.getSelectedValue());
         crudProd.ingresarProductos(productos.getSku(), productos.getCodigo(),
-            productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva());
+                productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva());
 
         crudProd.mostrarProductos(jtProductos);
 
@@ -341,6 +355,8 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtNombreProd.setText("");
         txtPrecio.setText("");
         txtDesc.setText("");
+        txtId.setText("");
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -350,11 +366,10 @@ public class NuevoProducto extends javax.swing.JFrame {
         productos.setNombre(txtNombreProd.getText());
         productos.setDescripcion(txtDesc.getText());
         productos.setPrecio(Double.parseDouble(txtPrecio.getText()));
-
+        productos.setId(Integer.parseInt(txtId.getText()));
         //    productos.setCodPromo(Integer.parseInt(txtPromo.getText()));
-
         crudProd.modificarProd(productos.getSku(), productos.getCodigo(),
-            productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva());
+                productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva(), productos.getId());
 
         crudProd.mostrarProductos(jtProductos);
 
@@ -363,14 +378,16 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtNombreProd.setText("");
         txtPrecio.setText("");
         txtDesc.setText("");
+        txtId.setText("");
+
         // txtPromo.setText("");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        productos.setSku(txtSku.getText());
+        productos.setId(Integer.parseInt(txtId.getText()));
 
-        crudProd.eliminarProd(productos.getSku());
+        crudProd.eliminarProd(productos.getId());
         crudProd.mostrarProductos(jtProductos);
 
         txtSku.setText("");
@@ -378,51 +395,51 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtNombreProd.setText("");
         txtPrecio.setText("");
         txtDesc.setText("");
+        txtId.setText("");
         // txtPromo.setText("");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void jtProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProductosMouseClicked
         int seleccion = jtProductos.rowAtPoint(evt.getPoint());
-
-        txtSku.setText(String.valueOf(jtProductos.getValueAt(seleccion, 0)));
-        txtCodigoProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 1)));
-        txtNombreProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 2)));
-        txtIva.setText(String.valueOf(jtProductos.getValueAt(seleccion, 5)));
-        txtDesc.setText(String.valueOf(jtProductos.getValueAt(seleccion, 3)));
-        txtPrecio.setText(String.valueOf(jtProductos.getValueAt(seleccion, 4)));
+        txtId.setText(String.valueOf(jtProductos.getValueAt(seleccion, 0)));
+        txtSku.setText(String.valueOf(jtProductos.getValueAt(seleccion, 1)));
+        txtCodigoProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 2)));
+        txtNombreProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 3)));
+        txtDesc.setText(String.valueOf(jtProductos.getValueAt(seleccion, 4)));
+        txtPrecio.setText(String.valueOf(jtProductos.getValueAt(seleccion, 5)));
         //  txtPromo.setText(String.valueOf(jtProductos.getValueAt(seleccion, 5)));
+        txtIva.setText(String.valueOf(jtProductos.getValueAt(seleccion, 6)));
     }//GEN-LAST:event_jtProductosMouseClicked
 
     private void btnvolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvolverActionPerformed
-       
+
         ver.setVisible(true);
-           this.setVisible(false);
-        
+        this.setVisible(false);
+
     }//GEN-LAST:event_btnvolverActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
-    private void llenarlista(){
-    String SQL="select * from promociones";
-        String datos[]=new String[1];
-       // limpiarT();
-        try{
+    private void llenarlista() {
+        String SQL = "select * from promociones";
+        String datos[] = new String[1];
+        // limpiarT();
+        try {
             cn.conectado();
-            
-            cn.st=cn.conexion.createStatement();
-            cn.rt=cn.st.executeQuery(SQL);
-            while (cn.rt.next()){
-                datos[0]=cn.rt.getString(2);
+
+            cn.st = cn.conexion.createStatement();
+            cn.rt = cn.st.executeQuery(SQL);
+            while (cn.rt.next()) {
+                datos[0] = cn.rt.getString(2);
                 modelo.addElement(datos[0]);
-                
+
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }
-}
-    
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -466,6 +483,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel8;
@@ -476,6 +494,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     public javax.swing.JList<String> listpromocion;
     private javax.swing.JTextField txtCodigoProd;
     private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtNombreProd;
     private javax.swing.JTextField txtPrecio;
