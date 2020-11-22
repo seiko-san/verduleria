@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
-import vistas.listas.Ventas;
+import listas.Ventas;
 
 /**
  *

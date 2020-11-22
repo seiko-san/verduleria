@@ -28,17 +28,15 @@ public class listas {
         modeloventas.addColumn("cod de venta");
         modeloventas.addColumn("id producto");
         modeloventas.addColumn("codigo descuento");
-        modeloventas.addColumn("fecha");
         modeloventas.addColumn("cantidad");
         modeloventas.addColumn("total");
-        modeloventas.addColumn("cantidad");
         modeloventas.addColumn("cod venta");
         modeloventas.addColumn("cod vendedor");
         modeloventas.addColumn("rut cliente");
         modeloventas.addColumn("fecha");
         modeloventas.addColumn("hora");
 
-        String[] ventas = new String[12];
+        String[] ventas = new String[10];
 
         jventas.setModel(modeloventas);
 
@@ -55,14 +53,17 @@ public class listas {
 
             while (rs.next()) {
 
-                ventas[0] = rs.getString("sku_producto");
-                ventas[1] = rs.getString("codigobarra_producto");
-                ventas[2] = rs.getString("nombre_producto");
-                ventas[3] = rs.getString("descripcion_producto");
-                ventas[4] = rs.getString("precio_neto");
-                ventas[5] = rs.getString("precio_iva");
-                ventas[6] = rs.getString("codigo_promocion");
-
+                ventas[0] = rs.getString("codigo_detalle_venta");
+                ventas[1] = rs.getString("id_producto");
+                ventas[2] = rs.getString("codigo_descuento");
+                ventas[3] = rs.getString("cantidad");
+                ventas[4] = rs.getString("total");
+                ventas[5] = rs.getString("codigo_venta");
+                ventas[6] = rs.getString("codigo_vendedor");
+                ventas[7] = rs.getString("rut_cliente");
+                ventas[8] = rs.getString("fecha_venta");
+                ventas[9] = rs.getString("hora_venta");
+                
                 modeloventas.addRow(ventas);
             }
             jventas.setModel(modeloventas);
