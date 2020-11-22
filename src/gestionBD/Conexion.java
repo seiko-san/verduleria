@@ -6,6 +6,7 @@ package gestionBD;
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JTextField;
@@ -18,8 +19,10 @@ public class Conexion {
     public static String driver = "com.mysql.jdbc.Driver";
     public static String url = "jdbc:mysql://localhost:3306/" + nombreBD;
     public static Connection conexion; 
+    public static Statement st=null;
+    public static ResultSet rt=null;
 
-    public static Connection conectar() {
+    public  static Connection conectar() {
 
         Statement sentencia = null;
 
@@ -48,6 +51,23 @@ public class Conexion {
             System.out.println("Error : no se logro cerrar la base de datos " + e);
         }
 
+    }
+        public  void conectado() {
+
+        Statement sentencia = null;
+
+        try {
+
+            Class.forName(driver);
+            conexion = (Connection) DriverManager.getConnection(url, user, pass);
+
+            System.out.print("conectados a la BD!");
+//            conexion.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+       
     }
 
 }
