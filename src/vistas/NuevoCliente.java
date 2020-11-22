@@ -17,6 +17,8 @@ public class NuevoCliente extends javax.swing.JFrame {
     Principal ver = new Principal();
     public NuevoCliente() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**

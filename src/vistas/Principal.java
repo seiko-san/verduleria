@@ -169,6 +169,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel14 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         btnproductos = new javax.swing.JButton();
+        btncliente = new javax.swing.JButton();
 
         jTextField8.setText("jTextField1");
 
@@ -540,6 +541,14 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             }
         });
 
+        btncliente.setBackground(new java.awt.Color(255, 51, 255));
+        btncliente.setText("Agregar Clientes");
+        btncliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnclienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -557,6 +566,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btncliente)
+                .addGap(54, 54, 54)
                 .addComponent(btnproductos)
                 .addGap(23, 23, 23))
         );
@@ -564,7 +575,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(btnproductos)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnproductos)
+                    .addComponent(btncliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -624,6 +637,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         ver.setVisible(true);
            this.setVisible(false);
     }//GEN-LAST:event_btnproductosActionPerformed
+
+    private void btnclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclienteActionPerformed
+        
+        NuevoCliente  cliente= new NuevoCliente();
+        cliente.setVisible(true);
+           this.setVisible(false);
+        
+        
+    }//GEN-LAST:event_btnclienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -698,6 +720,7 @@ public static void main(String args[]) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btncliente;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JButton btnproductos;
     private java.awt.Choice choice1;
