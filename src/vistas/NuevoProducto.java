@@ -356,6 +356,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtDesc.setText("");
         txtId.setText("");
+        txtIva.setText("");
 
 
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -400,6 +401,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtDesc.setText("");
         txtId.setText("");
+        txtIva.setText("");
         // txtPromo.setText("");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
