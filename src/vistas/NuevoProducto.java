@@ -361,12 +361,15 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int idlist = listpromocion.getSelectedIndex() + 1;
         productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
         productos.setNombre(txtNombreProd.getText());
         productos.setDescripcion(txtDesc.getText());
         productos.setPrecio(Double.parseDouble(txtPrecio.getText()));
         productos.setId(Integer.parseInt(txtId.getText()));
+        productos.setIva(Double.parseDouble(txtIva.getText()));
+        productos.setCodPromo(idlist);
         //    productos.setCodPromo(Integer.parseInt(txtPromo.getText()));
         crudProd.modificarProd(productos.getSku(), productos.getCodigo(),
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva(), productos.getId());
@@ -378,7 +381,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtNombreProd.setText("");
         txtPrecio.setText("");
         txtDesc.setText("");
-        txtId.setText("");
+        txtIva.setText("");
 
         // txtPromo.setText("");
     }//GEN-LAST:event_btnModificarActionPerformed
