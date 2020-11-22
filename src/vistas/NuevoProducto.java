@@ -375,7 +375,8 @@ public class NuevoProducto extends javax.swing.JFrame {
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva(), productos.getId());
 
         crudProd.mostrarProductos(jtProductos);
-
+        
+        txtId.setText("");
         txtSku.setText("");
         txtCodigoProd.setText("");
         txtNombreProd.setText("");
