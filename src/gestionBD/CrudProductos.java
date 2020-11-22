@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CrudProductos {
 
-    public boolean ingresarProductos(int sku, String codigo, String nombre,
+    public boolean ingresarProductos(String sku, String codigo, String nombre,
             String descripcion, double precio, int codpromo) {
 
         Connection con = null;
@@ -33,7 +33,7 @@ public class CrudProductos {
             stm = con.createStatement();
             resultUpdate = stm.executeUpdate("insert into productos(sku_producto , "
                     + "codigobarra_producto , nombre_producto , descripcion_producto, "
-                    + "precio_neto ,codigo_promocion) values(" + sku + ",'" + codigo + "',"
+                    + "precio_neto ,codigo_promocion) values('" + sku + "','" + codigo + "',"
                     + "'" + nombre + "','" + descripcion + "'," + precio + "," + codpromo + ")");
 
             if (resultUpdate != 0) {
@@ -93,7 +93,7 @@ public class CrudProductos {
 
     }
 
-    public boolean eliminarProd(int sku) {
+    public boolean eliminarProd(String sku) {
         Connection con = null;
         Statement stm;
 
@@ -117,7 +117,7 @@ public class CrudProductos {
         }
     }
 
-    public boolean modificarProd(int sku , String codigo , String nombre , String descripcion , double precio , int codpromo) {
+    public boolean modificarProd(String sku , String codigo , String nombre , String descripcion , double precio , int codpromo) {
         Connection con = null;
         Statement stm;
         ResultSet rs;

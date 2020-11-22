@@ -312,7 +312,7 @@ public class NuevoProducto extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         int idlist=listpromocion.getSelectedIndex()+1;
-        productos.setSku(Integer.parseInt(txtSku.getText()));
+        productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
         productos.setNombre(txtNombreProd.getText());
         productos.setDescripcion(txtDesc.getText());
@@ -334,7 +334,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        productos.setSku(Integer.parseInt(txtSku.getText()));
+        productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
         productos.setNombre(txtNombreProd.getText());
         productos.setDescripcion(txtDesc.getText());
@@ -357,7 +357,7 @@ public class NuevoProducto extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        productos.setSku(Integer.parseInt(txtSku.getText()));
+        productos.setSku(txtSku.getText());
 
         crudProd.eliminarProd(productos.getSku());
         crudProd.mostrarProductos(jtProductos);

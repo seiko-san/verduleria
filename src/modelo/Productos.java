@@ -11,7 +11,7 @@ package modelo;
  */
 public class Productos {
 
-    int sku;
+    String sku;
     String codigo;
     String nombre;
     String descripcion;
@@ -22,7 +22,7 @@ public class Productos {
     public Productos() {
     }
 
-    public Productos(int sku, String codigo, String nombre, String descripcion, double precio, int codPromo) {
+    public Productos(String sku, String codigo, String nombre, String descripcion, double precio, int codPromo) {
         this.sku = sku;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -32,11 +32,11 @@ public class Productos {
         this.codPromo = codPromo;
     }
 
-    public int getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(int sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 

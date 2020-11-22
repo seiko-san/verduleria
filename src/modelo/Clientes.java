@@ -1,4 +1,3 @@
-
 package modelo;
 
 /**
@@ -6,12 +5,12 @@ package modelo;
  * @author seiko
  */
 public class Clientes {
-    
-    String rut_cliente ;
-  String nombre_cliente;
-  String correo_cliente;
-  String telefono_cliente;
-  String direccion_cliente;
+
+    String rut_cliente;
+    String nombre_cliente;
+    String correo_cliente;
+    String telefono_cliente;
+    String direccion_cliente;
 
     public Clientes() {
     }
@@ -63,6 +62,5 @@ public class Clientes {
     public void setDireccion_cliente(String direccion_cliente) {
         this.direccion_cliente = direccion_cliente;
     }
-    
-  
+
 }

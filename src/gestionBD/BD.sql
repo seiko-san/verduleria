@@ -162,5 +162,10 @@ VALUES(0),(5),(10),(15),(20),(25),(30),(35),(40),(45),(50),(55),(60),(65),(70),(
 -- -----------------------------------------------------
 INSERT INTO promociones(`codigo_promocion`,`nombre_promocion`,`porcentaje_promocion`)
 VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
- 
+
+-- -----------------------------------------------------
+-- Insert Productos
+-- -----------------------------------------------------
+INSERT INTO productos(`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
+VALUES('VAPO01PB','');
 
