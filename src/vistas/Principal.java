@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
+import gestionBD.IngresoLogin;
 import listas.Clientes;
 import listas.Ventas;
 
@@ -30,11 +31,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
     String hora, minutos, segundos;
     Thread hilo;
-    Conexion cn= new Conexion();
-    
-    /**
-     * Creates new form Principal
-     */
+    Conexion cn = new Conexion();
+
     CrudProductos crudProd = new CrudProductos();
     Productos productos = new Productos();
     DefaultListModel modelo = new DefaultListModel();
@@ -46,8 +44,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         hilo = new Thread(this);
         hilo.start();
         this.setLocationRelativeTo(null);
-        
         llenarlista();
+        this.setResizable(false);
     }
 
     public void hora() {
@@ -95,16 +93,53 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     System.out.println(opcion);
 
                     if (opcion == 0) {
-                        
+
                         //Principal p = new Principal();
                         //p.panel_productos.setSelectedIndex(0);
                         // p.setVisible(false);
-                       // panel_productos.setSelectedIndex(1);
+                        // panel_productos.setSelectedIndex(1);
                         //p.setVisible(true);
-                         NuevoCliente ver = new NuevoCliente();
-                         ver.setVisible(true);
-                         this.setVisible(false);
+                        NuevoCliente ver = new NuevoCliente();
+                        ver.setVisible(true);
+                        this.setVisible(false);
                     }
+
+                }
+            }
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void ConsultaProducto(int id_producto, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final) {
+
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+        int resultado = 0;
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT * From productos where  codigobarra_producto = '" + id_producto + "'");
+
+            if (id_producto == 0) {
+                JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
+            } else {
+
+                if (rs.next()) {
+                    //resultado = 1;
+                    // rs.getString(2);
+                    sku_producto.setText(rs.getString(1));
+                    nombre_producto.setText(rs.getString(3));
+                    precio_final.setText(rs.getString(6));
+                    System.out.println(rs);
+                } else {
+                    //JOptionPane.showMessageDialog(null, "No se encontro datos!");
+                    int opcion = JOptionPane.showConfirmDialog(null, "No se encontraron referencias\n ¿Desea crear el cliente?", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println(opcion);
 
                 }
             }
@@ -140,19 +175,24 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         lblcodigo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        txtsku = new javax.swing.JTextField();
+        btnbuscaproducto = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtnomproducto = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtprecio = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
+        jLabel13 = new javax.swing.JLabel();
+        txtidproducto = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtdescripcion = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtrutcliente = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnbuscacliente = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtnombrecliente = new javax.swing.JTextField();
         btnlimpiar = new javax.swing.JButton();
@@ -164,8 +204,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton5 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        btnproductos = new javax.swing.JButton();
-        btncliente = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAgregar = new javax.swing.JMenu();
         menuCliente = new javax.swing.JMenu();
@@ -270,36 +308,42 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(lblcodigo))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jLabel9.setText("sku Producto:");
+        jLabel9.setText("SKU Producto:");
 
-        jTextField3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtsku.setEditable(false);
+        txtsku.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
 
-        jButton2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jButton2.setText("Buscar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnbuscaproducto.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        btnbuscaproducto.setText("Buscar");
+        btnbuscaproducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnbuscaproductoActionPerformed(evt);
             }
         });
 
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel10.setText("Nombre Producto:");
 
-        jTextField4.setEditable(false);
-        jTextField4.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtnomproducto.setEditable(false);
+        txtnomproducto.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtnomproducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnomproductoActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel11.setText("Precio Final:");
 
-        jTextField5.setEditable(false);
-        jTextField5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtprecio.setEditable(false);
+        txtprecio.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel12.setText("Cantidad:");
@@ -308,61 +352,104 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jButton3.setText("Agregar");
 
+        jSpinner1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel13.setText("Codigo Producto:");
+
+        txtidproducto.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel15.setText("Descripcion Producto:");
+
+        txtdescripcion.setColumns(20);
+        txtdescripcion.setRows(5);
+        jScrollPane2.setViewportView(txtdescripcion);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel9))
+                .addGap(61, 61, 61)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtsku)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
+                        .addGap(220, 220, 220)
+                        .addComponent(jLabel11))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(75, 75, 75)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnbuscaproducto)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(167, 167, 167)
+                                .addComponent(jLabel12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                                .addComponent(jLabel10)))))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtnomproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 167, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(63, 63, 63)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(106, 106, 106))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel12)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel15)
+                        .addGap(55, 55, 55))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtnomproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(31, 31, 31)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel11)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnbuscaproducto))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(txtsku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 23, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 255));
@@ -373,11 +460,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         txtrutcliente.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnbuscacliente.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        btnbuscacliente.setText("Buscar");
+        btnbuscacliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnbuscaclienteActionPerformed(evt);
             }
         });
 
@@ -414,7 +501,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnlimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnbuscacliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 22, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
@@ -424,10 +511,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnbuscacliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -492,13 +579,13 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addGap(83, 83, 83)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel14)
-                .addGap(35, 35, 35)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+                .addGap(61, 61, 61)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(227, 227, 227))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,23 +599,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGap(11, 11, 11))
         );
 
-        btnproductos.setBackground(new java.awt.Color(102, 102, 255));
-        btnproductos.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        btnproductos.setText("Agregar Productos");
-        btnproductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnproductosActionPerformed(evt);
-            }
-        });
-
-        btncliente.setBackground(new java.awt.Color(255, 51, 255));
-        btncliente.setText("Agregar Clientes");
-        btncliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnclienteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -538,44 +608,40 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btncliente)
-                .addGap(54, 54, 54)
-                .addComponent(btnproductos)
-                .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnproductos)
-                    .addComponent(btncliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(27, 27, 27)
+                .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 204, 102));
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        menuAgregar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        menuAgregar.setBackground(new java.awt.Color(255, 204, 255));
+        menuAgregar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         menuAgregar.setText("Agregar");
         menuAgregar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
 
@@ -645,23 +711,17 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 2, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnbuscaclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaclienteActionPerformed
 
         String rut = txtrutcliente.getText();
         //Cliente cliente = new Cliente();
@@ -669,11 +729,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         //cliente.ConsultaCliente(rut, txtnombrecliente);
         ConsultaCliente(rut, txtnombrecliente);
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnbuscaclienteActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      //  panel_productos.setSelectedIndex(1);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnbuscaproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaproductoActionPerformed
+
+        String prod = txtrutcliente.getText();
+        int id_producto = Integer.parseInt(prod);
+        ConsultaProducto(id_producto,  txtsku,  txtnomproducto,  txtprecio);
+
+    }//GEN-LAST:event_btnbuscaproductoActionPerformed
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
 
@@ -681,56 +745,40 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtnombrecliente.setText("");
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
-    private void btnproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosActionPerformed
-      NuevoProducto ver = new NuevoProducto();
-        ver.setVisible(true);
-           this.setVisible(false);
-    }//GEN-LAST:event_btnproductosActionPerformed
-
-    private void btnclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclienteActionPerformed
-        
-        NuevoCliente  cliente= new NuevoCliente();
-        cliente.setVisible(true);
-           this.setVisible(false);
-        
-        
-    }//GEN-LAST:event_btnclienteActionPerformed
-
     private void menuVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVentasActionPerformed
-      
+
     }//GEN-LAST:event_menuVentasActionPerformed
 
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
-       
+
     }//GEN-LAST:event_menuClienteActionPerformed
 
     private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
-     
+
     }//GEN-LAST:event_menuProductoActionPerformed
 
     private void menuClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuClienteMouseClicked
-       
-        
-        NuevoCliente  cliente= new NuevoCliente();
+
+        NuevoCliente cliente = new NuevoCliente();
         cliente.setVisible(true);
-           this.setVisible(false);
-        
+        this.setVisible(false);
+
     }//GEN-LAST:event_menuClienteMouseClicked
 
     private void menuProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuProductoMouseClicked
-      
-         NuevoProducto ver = new NuevoProducto();
+
+        NuevoProducto ver = new NuevoProducto();
         ver.setVisible(true);
-           this.setVisible(false);
-        
+        this.setVisible(false);
+
     }//GEN-LAST:event_menuProductoMouseClicked
 
     private void menuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuVentasMouseClicked
-       
+
         Ventas ver = new Ventas();
         ver.setVisible(true);
         this.setVisible(false);
-                
+
     }//GEN-LAST:event_menuVentasMouseClicked
 
     private void menuclientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuclientesMouseClicked
@@ -738,6 +786,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         ver.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_menuclientesMouseClicked
+
+    private void txtnomproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnomproductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnomproductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -748,26 +800,26 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         return formatofecha.format(fecha);
     }
 
-private void llenarlista(){
-    String SQL="select * from promociones";
-        String datos[]=new String[1];
-       // limpiarT();
-        try{
+    private void llenarlista() {
+        String SQL = "select * from promociones";
+        String datos[] = new String[1];
+        // limpiarT();
+        try {
             cn.conectado();
-            
-            cn.st=cn.conexion.createStatement();
-            cn.rt=cn.st.executeQuery(SQL);
-            while (cn.rt.next()){
-                datos[0]=cn.rt.getString(2);
+
+            cn.st = cn.conexion.createStatement();
+            cn.rt = cn.st.executeQuery(SQL);
+            while (cn.rt.next()) {
+                datos[0] = cn.rt.getString(2);
                 modelo.addElement(datos[0]);
-                
+
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }
-}
+    }
 
-public static void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -778,28 +830,24 @@ public static void main(String args[]) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Principal.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Principal.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Principal.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Principal.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -812,11 +860,9 @@ public static void main(String args[]) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btncliente;
+    private javax.swing.JButton btnbuscacliente;
+    private javax.swing.JButton btnbuscaproducto;
     private javax.swing.JButton btnlimpiar;
-    private javax.swing.JButton btnproductos;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -824,7 +870,9 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -842,11 +890,9 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField7;
     public javax.swing.JLabel lblcodigo;
     private javax.swing.JLabel lblfecha;
@@ -859,8 +905,13 @@ public static void main(String args[]) {
     private javax.swing.JMenu menuProducto;
     private javax.swing.JMenu menuVentas;
     private javax.swing.JMenu menuclientes;
+    private javax.swing.JTextArea txtdescripcion;
+    private javax.swing.JTextField txtidproducto;
     public javax.swing.JTextField txtnombrecliente;
+    private javax.swing.JTextField txtnomproducto;
+    private javax.swing.JTextField txtprecio;
     private javax.swing.JTextField txtrutcliente;
+    private javax.swing.JTextField txtsku;
     // End of variables declaration//GEN-END:variables
 
 }
