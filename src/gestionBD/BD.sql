@@ -6,12 +6,13 @@ USE verduleria ;
 -- Table Clientes
 -- -----------------------------------------------------
 CREATE TABLE Clientes (
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `rut_cliente` varchar(10) NOT NULL,
   `nombre_cliente` VARCHAR(45) NOT NULL,
   `correo_cliente` VARCHAR(45) NOT NULL,
   `telefono_cliente` varchar(9) NOT NULL,
   `direccion_cliente` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`rut_cliente`));
+  PRIMARY KEY (`id_cliente`));
 
 
 -- -----------------------------------------------------
@@ -78,12 +79,12 @@ CREATE TABLE Vendedores (
 CREATE TABLE Ventas (
   `codigo_venta` INT NOT NULL AUTO_INCREMENT,
   `codigo_vendedor` INT NOT NULL,
-  `rut_cliente` varchar(10) not null,
+  `id_cliente` INT NOT NULL,
   `fecha_venta` DATE NOT NULL,
   `hora_venta` TIME NOT NULL,
   PRIMARY KEY (`codigo_venta`),
     FOREIGN KEY (`codigo_vendedor`) REFERENCES Vendedores (`codigo_vendedor`),
-    FOREIGN KEY (`rut_cliente`)REFERENCES Clientes (`rut_cliente`));
+    FOREIGN KEY (`id_cliente`)REFERENCES Clientes (`id_cliente`));
 
 
 -- -----------------------------------------------------
@@ -100,7 +101,7 @@ CREATE TABLE Descuentos (
 -- -----------------------------------------------------
 CREATE TABLE Detalle_Venta (
   `codigo_detalle_venta` INT NOT NULL AUTO_INCREMENT,
-  `id_producto` int NOT NULL,
+  `id_producto` INT NOT NULL,
   `codigo_venta` INT NOT NULL,
   `codigo_descuento` INT NOT NULL,
   `cantidad` INT NOT NULL,
@@ -164,4 +165,47 @@ VALUES(0),(5),(10),(15),(20),(25),(30),(35),(40),(45),(50),(55),(60),(65),(70),(
 INSERT INTO promociones(`codigo_promocion`,`nombre_promocion`,`porcentaje_promocion`)
 VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
 
+-- -----------------------------------------------------
+-- Insert Ventas
+-- -----------------------------------------------------
+INSERT INTO ventas(`codigo_vendedor`,`id_cliente`,`fecha_venta`,`hora_venta`)
+VALUES('1',1,'2000-01-01','05:05:00');
+
+
+-- -----------------------------------------------------
+-- Insert Productos
+-- -----------------------------------------------------
+INSERT INTO productos(`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
+VALUES('VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2);
+
+-- -----------------------------------------------------
+-- Insert Detalle Venta
+-- -----------------------------------------------------
+
+INSERT INTO detalle_venta(`codigo_detalle_venta`,`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
+VALUES(1,1,1,1,1,1800);
+
+
+
+
+
+
+
+
+
+
+
+
+
+ INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
+VALUES(1,1,1,1,5000);
+
+
+
+Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`verduleria`.`detalle_venta`, CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`))
+
+
+
+select * from detalle_venta;
  
+SET FOREIGN_KEY_CHECKS = 1;

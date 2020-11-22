@@ -6,6 +6,7 @@ package modelo;
  */
 public class Clientes {
 
+    int id_cliente;
     String rut_cliente;
     String nombre_cliente;
     String correo_cliente;
@@ -15,7 +16,8 @@ public class Clientes {
     public Clientes() {
     }
 
-    public Clientes(String rut_cliente, String nombre_cliente, String correo_cliente, String telefono_cliente, String direccion_cliente) {
+    public Clientes(int id_cliente, String rut_cliente, String nombre_cliente, String correo_cliente, String telefono_cliente, String direccion_cliente) {
+        this.id_cliente = id_cliente;
         this.rut_cliente = rut_cliente;
         this.nombre_cliente = nombre_cliente;
         this.correo_cliente = correo_cliente;
@@ -23,6 +25,14 @@ public class Clientes {
         this.direccion_cliente = direccion_cliente;
     }
 
+    public int getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(int id_cliente) {
+        this.id_cliente = id_cliente;
+    }
+    
     public String getRut_cliente() {
         return rut_cliente;
     }
