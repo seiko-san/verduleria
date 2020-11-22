@@ -28,8 +28,8 @@ CREATE TABLE Promociones (
 -- Productos
 -- -----------------------------------------------------
 CREATE TABLE Productos(
-  `sku_producto` INT NOT NULL,
-  `codigobarra_producto` VARCHAR(200) NOT NULL,
+  `sku_producto` varchar(8) NOT NULL,
+  `codigobarra_producto` VARCHAR(5) NOT NULL, /*Code-39*/
   `nombre_producto` VARCHAR(45) NOT NULL,
   `descripcion_producto` VARCHAR(200) NOT NULL,
   `precio_neto` FLOAT NOT NULL,
@@ -98,14 +98,14 @@ CREATE TABLE Descuentos (
 -- -----------------------------------------------------
 CREATE TABLE Detalle_Venta (
   `codigo_detalle_venta` INT NOT NULL AUTO_INCREMENT,
-  `Productos_sku_producto` INT NOT NULL,
+  `sku_producto` varchar(8) NOT NULL,
   `codigo_venta` INT NOT NULL,
   `codigo_descuento` INT NOT NULL,
   `fecha` DATE NOT NULL,
   `cantidad` INT NOT NULL,
   `total` INT NOT NULL,
   PRIMARY KEY (`codigo_detalle_venta`),
-    FOREIGN KEY (`Productos_sku_producto`) REFERENCES Productos (`sku_producto`),
+    FOREIGN KEY (`sku_producto`) REFERENCES Productos (`sku_producto`),
     FOREIGN KEY (`codigo_venta`) REFERENCES Ventas (`codigo_venta`),
     FOREIGN KEY (`codigo_descuento`) REFERENCES Descuentos (`codigo_descuento`));
 
@@ -115,7 +115,7 @@ CREATE TABLE Detalle_Venta (
 -- -----------------------------------------------------
 CREATE TABLE Historico_Productos (
   `codigo_historico_p` INT NOT NULL AUTO_INCREMENT,
-  `sku_producto` INT NOT NULL,
+  `sku_producto` varchar(8) NOT NULL,
   `precio_producto_h` INT NOT NULL,
   `fecha_h` DATE NOT NULL,
   PRIMARY KEY (`codigo_historico_p`),
@@ -123,16 +123,44 @@ CREATE TABLE Historico_Productos (
 
 /********************************ALGUNOS INSERT*********************************************/
 
+-- -----------------------------------------------------
+-- Insert Tipo Sucursal
+-- -----------------------------------------------------
 INSERT INTO tipos_sucursal(`nombre_tipo`)
 VALUES('Fisica'),('Online');
 
+-- -----------------------------------------------------
+-- Insert Sucursales
+-- -----------------------------------------------------
 INSERT INTO sucursales (`nombre_sucursal`,`direccion_sucursal`,`id_tipo`)
-VALUES('Verduleria Apoquindo','Apoquindo 1025',1);
+VALUES('Verduleria Apoquindo','Apoquindo 1025',1),('Verduleria Bio-Bio','Carrera 123',1),
+('Verduleria Concepcion','Rosas 458',1),('Verduleria Online','Nueva Providencia 1001',2);
 
+-- -----------------------------------------------------
+-- Insert Vendedores
+-- -----------------------------------------------------
 INSERT INTO vendedores(`codigo_vendedor`,`nombre_vendedor`,`codigo_sucursal`)
-VALUES('001','Juan Perez',1);
+VALUES('1','Pedro Gatica',1),('2','Kimberly Soazo',1),('3','Joaquin Valenzuela',2),
+('4','Pricilla Guzman',2),('5','Juan Perez',3),('6','Pablo Rojas',3);
 
-select * from clientes
-
+-- -----------------------------------------------------
+-- Insert Clientes
+-- -----------------------------------------------------
 INSERT INTO clientes(`rut_cliente`,`nombre_cliente`,`correo_cliente`,`telefono_cliente`,`direccion_cliente`)
-VALUES('17679912-9','Pedro gatica','pgatica@gmail.com','96159286','Santiago');
+VALUES('11111111-1','Simon Guzman','sguzman@gmail.com','123456789','Santiago 1260'),('22222222-2','Jazmin Fuenzalida','jfuenzalida@gmail.com','234124567','Maipu 2260'),
+('33333333-3','Mario Gonzales','mgonzales@gmail.com','89785136','Apoquindo 1260'),('44444444-4','Franco Lemus','flemus@gmail.com','345212345','Estacion Central 260'),
+('55555555-5','Maria Rojas','mrojas@gmail.com','589785219','Santiago 160'),('66666666-6','Claudia Riveros','criveros@gmail.com','894568469','Las Condes 1280');
+
+-- -----------------------------------------------------
+-- Insert Descuentos
+-- -----------------------------------------------------
+INSERT INTO descuentos(`descuento`)
+VALUES(0),(5),(10),(15),(20),(25),(30),(35),(40),(45),(50),(55),(60),(65),(70),(75),(80),(85),(90),(95),(100);
+
+-- -----------------------------------------------------
+-- Insert Promociones
+-- -----------------------------------------------------
+INSERT INTO promociones(`codigo_promocion`,`nombre_promocion`,`porcentaje_promocion`)
+VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
+ 
+
