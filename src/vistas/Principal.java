@@ -20,6 +20,10 @@ import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
 import gestionBD.IngresoLogin;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import listas.Clientes;
 import listas.Ventas;
 
@@ -820,7 +824,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -851,10 +855,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new Principal().setVisible(true);
             }
         });

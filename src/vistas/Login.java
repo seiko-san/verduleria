@@ -7,7 +7,10 @@ package vistas;
 
 import gestionBD.IngresoLogin;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import vistas.Principal;
+
 /**
  *
  * @author joako
@@ -24,7 +27,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
+
         llenarCombobox.llenarCombobox(cbxSucursal);
     }
 
@@ -117,22 +120,19 @@ public class Login extends javax.swing.JFrame {
 
         Principal principal = new Principal();
         IngresoLogin ingreso = new IngresoLogin();
-        
+
         String usuario = jtxtUsuario.getText();
         String sucursal = (String) cbxSucursal.getSelectedItem();
-            Principal ver = new Principal();
-            
+        Principal ver = new Principal();
+
         if (ingreso.validarIngreso(usuario, sucursal) == 1) {
-            
-           ver.setVisible(true);
-           this.setVisible(false);
-        }else{
+
+            ver.setVisible(true);
+            this.setVisible(false);
+        } else {
             JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
         }
-        
 
-        
-        
         String cod = jtxtUsuario.getText();
         ver.lblcodigo.setText(cod);
         String suc = cbxSucursal.getSelectedItem().toString();
@@ -147,7 +147,7 @@ public class Login extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -170,7 +170,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
