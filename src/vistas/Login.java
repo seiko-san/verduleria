@@ -11,6 +11,7 @@ import vistas.Principal;
 /**
  *
  * @author joako
+ * @collaborator seiko
  */
 public class Login extends javax.swing.JFrame {
 

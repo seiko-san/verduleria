@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author joako
+ * @collaborator seiko
  */
 public class IngresoLogin {
 
