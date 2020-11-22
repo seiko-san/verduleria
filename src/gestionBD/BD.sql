@@ -185,7 +185,20 @@ VALUES('VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2);
 INSERT INTO detalle_venta(`codigo_detalle_venta`,`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
 VALUES(1,1,1,1,1,1800);
 
+Vendedores.nombre_vendedor
 
+SELECT detalle_venta.codigo_detalle_venta,
+       detalle_venta.id_producto, 
+       detalle_venta.codigo_descuento,detalle_venta.cantidad,  detalle_venta.total,ventas.codigo_venta,  ventas.codigo_vendedor,ventas.id_cliente, ventas.fecha_venta,   ventas.hora_venta 
+
+select vendedores.codigo_sucursal
+FROM detalle_venta,s.sucursales
+Join Vendedores on s.sucursales.codigo_sucursal = vendedores.codigo_sucursal 
+JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
+JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
+JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
+JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
+JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
 
 
 

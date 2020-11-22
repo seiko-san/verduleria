@@ -113,7 +113,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaProducto(int id_producto, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final) {
+    public void ConsultaProducto(String codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final) {
 
         Connection con = null;
         Statement stm;
@@ -123,9 +123,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("SELECT * From productos where  codigobarra_producto = '" + id_producto + "'");
+            rs = stm.executeQuery("SELECT * From productos where  codigobarra_producto = '" + codigo_barra + "'");
 
-            if (id_producto == 0) {
+            if (codigo_barra.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
             } else {
 
@@ -133,6 +133,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     //resultado = 1;
                     // rs.getString(2);
                     sku_producto.setText(rs.getString(1));
+                    
                     nombre_producto.setText(rs.getString(3));
                     precio_final.setText(rs.getString(6));
                     System.out.println(rs);
@@ -185,7 +186,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton3 = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel13 = new javax.swing.JLabel();
-        txtidproducto = new javax.swing.JTextField();
+        txtcodigobarra = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtdescripcion = new javax.swing.JTextArea();
@@ -357,7 +358,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel13.setText("Codigo Producto:");
 
-        txtidproducto.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtcodigobarra.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel15.setText("Descripcion Producto:");
@@ -385,7 +386,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addGap(220, 220, 220)
                         .addComponent(jLabel11))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtcodigobarra, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnbuscaproducto)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +441,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                 .addGap(40, 40, 40)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel13)
-                                    .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtcodigobarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnbuscaproducto))
                                 .addGap(27, 27, 27)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -733,9 +734,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
     private void btnbuscaproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaproductoActionPerformed
 
-        String prod = txtrutcliente.getText();
-        int id_producto = Integer.parseInt(prod);
-        ConsultaProducto(id_producto,  txtsku,  txtnomproducto,  txtprecio);
+        String codigo_barra = txtcodigobarra.getText();
+//        int id_producto = Integer.parseInt(prod);
+        ConsultaProducto(codigo_barra,  txtsku,  txtnomproducto,  txtprecio);
 
     }//GEN-LAST:event_btnbuscaproductoActionPerformed
 
@@ -905,8 +906,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menuProducto;
     private javax.swing.JMenu menuVentas;
     private javax.swing.JMenu menuclientes;
+    private javax.swing.JTextField txtcodigobarra;
     private javax.swing.JTextArea txtdescripcion;
-    private javax.swing.JTextField txtidproducto;
     public javax.swing.JTextField txtnombrecliente;
     private javax.swing.JTextField txtnomproducto;
     private javax.swing.JTextField txtprecio;
