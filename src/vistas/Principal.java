@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
+import listas.Clientes;
 import listas.Ventas;
 
 /**
@@ -171,6 +172,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         menuProducto = new javax.swing.JMenu();
         menuListar = new javax.swing.JMenu();
         menuVentas = new javax.swing.JMenu();
+        menuclientes = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -626,6 +628,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         });
         menuListar.add(menuVentas);
 
+        menuclientes.setText("Clientes");
+        menuclientes.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menuclientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuclientesMouseClicked(evt);
+            }
+        });
+        menuListar.add(menuclientes);
+
         jMenuBar1.add(menuListar);
 
         setJMenuBar(jMenuBar1);
@@ -721,6 +732,12 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         this.setVisible(false);
                 
     }//GEN-LAST:event_menuVentasMouseClicked
+
+    private void menuclientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuclientesMouseClicked
+        Clientes ver = new Clientes();
+        ver.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_menuclientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -841,6 +858,7 @@ public static void main(String args[]) {
     private javax.swing.JMenu menuListar;
     private javax.swing.JMenu menuProducto;
     private javax.swing.JMenu menuVentas;
+    private javax.swing.JMenu menuclientes;
     public javax.swing.JTextField txtnombrecliente;
     private javax.swing.JTextField txtrutcliente;
     // End of variables declaration//GEN-END:variables

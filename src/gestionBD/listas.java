@@ -73,5 +73,45 @@ public class listas {
         }
 
     }
+    
+    public void mostrarclientes(JTable jclientes) {
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        DefaultTableModel modelocliente = new DefaultTableModel();
+
+        modelocliente.addColumn("Rut Cliente");
+        modelocliente.addColumn("Nombre");
+        modelocliente.addColumn("correo");
+        modelocliente.addColumn("Telefono");
+        modelocliente.addColumn("Direccion");
+
+        String[] clientes = new String[5];
+
+        jclientes.setModel(modelocliente);
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT * FROM clientes");
+
+            while (rs.next()) {
+
+                clientes[0] = rs.getString("rut_cliente");
+                clientes[1] = rs.getString("nombre_cliente");
+                clientes[2] = rs.getString("correo_cliente");
+                clientes[3] = rs.getString("telefono_cliente");
+                clientes[4] = rs.getString("direccion_cliente");
+                
+                modelocliente.addRow(clientes);
+            }
+            jclientes.setModel(modelocliente);
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+
+    }
 
 }
