@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
+import vistas.listas.Ventas;
 
 /**
  *
@@ -123,9 +124,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField8 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
         jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -170,12 +168,12 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jTextField7 = new javax.swing.JTextField();
         btnproductos = new javax.swing.JButton();
         btncliente = new javax.swing.JButton();
-
-        jTextField8.setText("jTextField1");
-
-        jTextField10.setText("jTextField1");
-
-        jLabel22.setText("jLabel22");
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuAgregar = new javax.swing.JMenu();
+        menuCliente = new javax.swing.JMenu();
+        menuProducto = new javax.swing.JMenu();
+        menuListar = new javax.swing.JMenu();
+        menuVentas = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -592,6 +590,66 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGap(17, 17, 17))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 204, 102));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        menuAgregar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        menuAgregar.setText("Agregar");
+        menuAgregar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+
+        menuCliente.setText("Cliente");
+        menuCliente.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menuCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuClienteMouseClicked(evt);
+            }
+        });
+        menuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuClienteActionPerformed(evt);
+            }
+        });
+        menuAgregar.add(menuCliente);
+
+        menuProducto.setText("Producto");
+        menuProducto.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menuProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuProductoMouseClicked(evt);
+            }
+        });
+        menuProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProductoActionPerformed(evt);
+            }
+        });
+        menuAgregar.add(menuProducto);
+
+        jMenuBar1.add(menuAgregar);
+
+        menuListar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        menuListar.setText("Listar");
+        menuListar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+
+        menuVentas.setText("Ventas");
+        menuVentas.setToolTipText("");
+        menuVentas.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menuVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuVentasMouseClicked(evt);
+            }
+        });
+        menuVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVentasActionPerformed(evt);
+            }
+        });
+        menuListar.add(menuVentas);
+
+        jMenuBar1.add(menuListar);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -604,9 +662,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 15, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -646,6 +704,43 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         
         
     }//GEN-LAST:event_btnclienteActionPerformed
+
+    private void menuVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVentasActionPerformed
+      
+    }//GEN-LAST:event_menuVentasActionPerformed
+
+    private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
+       
+    }//GEN-LAST:event_menuClienteActionPerformed
+
+    private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
+     
+    }//GEN-LAST:event_menuProductoActionPerformed
+
+    private void menuClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuClienteMouseClicked
+       
+        
+        NuevoCliente  cliente= new NuevoCliente();
+        cliente.setVisible(true);
+           this.setVisible(false);
+        
+    }//GEN-LAST:event_menuClienteMouseClicked
+
+    private void menuProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuProductoMouseClicked
+      
+         NuevoProducto ver = new NuevoProducto();
+        ver.setVisible(true);
+           this.setVisible(false);
+        
+    }//GEN-LAST:event_menuProductoMouseClicked
+
+    private void menuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuVentasMouseClicked
+       
+        Ventas ver = new Ventas();
+        ver.setVisible(true);
+        this.setVisible(false);
+                
+    }//GEN-LAST:event_menuVentasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -736,7 +831,6 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -744,6 +838,7 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -753,18 +848,21 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JLabel lblcodigo;
     private javax.swing.JLabel lblfecha;
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblsucursal;
     public static javax.swing.JLabel lblvendedor;
+    private javax.swing.JMenu menuAgregar;
+    private javax.swing.JMenu menuCliente;
+    private javax.swing.JMenu menuListar;
+    private javax.swing.JMenu menuProducto;
+    private javax.swing.JMenu menuVentas;
     public javax.swing.JTextField txtnombrecliente;
     private javax.swing.JTextField txtrutcliente;
     // End of variables declaration//GEN-END:variables
