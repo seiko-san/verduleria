@@ -162,6 +162,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton5 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
+        btnproductos = new javax.swing.JButton();
         JPCliente = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -542,7 +543,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel14)
@@ -562,6 +563,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGap(11, 11, 11))
         );
 
+        btnproductos.setBackground(new java.awt.Color(102, 102, 255));
+        btnproductos.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        btnproductos.setText("Agregar Productos");
+        btnproductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnproductosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -577,11 +587,17 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnproductos)
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(147, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
+                .addComponent(btnproductos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1032,15 +1048,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    
+        int idlist=listpromocion.getSelectedIndex()+1;
         productos.setSku(Integer.parseInt(txtSku.getText()));
         productos.setCodigo(txtCodigoProd.getText());
         productos.setNombre(txtNombreProd.getText());
         productos.setDescripcion(txtDesc.getText());
         productos.setPrecio(Double.parseDouble(txtPrecio.getText()));
 
-      //  productos.setCodPromo(Integer.parseInt(txtPromo.getText()));
-
+        productos.setCodPromo(idlist);
+//        productos.setText((String)lista.getSelectedValue()); 
         crudProd.ingresarProductos(productos.getSku(), productos.getCodigo(),
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo());
 
@@ -1069,6 +1085,12 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtrutcliente.setText("");
         txtnombrecliente.setText("");
     }//GEN-LAST:event_btnlimpiarActionPerformed
+
+    private void btnproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosActionPerformed
+      NuevoProducto ver = new NuevoProducto();
+        ver.setVisible(true);
+           this.setVisible(false);
+    }//GEN-LAST:event_btnproductosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1151,6 +1173,7 @@ public static void main(String args[]) {
     private javax.swing.JButton btneliminarcliente;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JButton btnmodificarcliente;
+    private javax.swing.JButton btnproductos;
     private java.awt.Choice choice1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
