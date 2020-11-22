@@ -28,6 +28,7 @@ CREATE TABLE Promociones (
 -- Productos
 -- -----------------------------------------------------
 CREATE TABLE Productos(
+  `id_producto` int NOT NULL AUTO_INCREMENT,
   `sku_producto` varchar(8) NOT NULL,
   `codigobarra_producto` VARCHAR(5) NOT NULL, /*Code-39*/
   `nombre_producto` VARCHAR(45) NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE Productos(
   `precio_neto` FLOAT NOT NULL,
   `precio_iva` FLOAT NOT NULL,
   `codigo_promocion` INT NOT NULL,
-  PRIMARY KEY (`sku_producto`),
+  PRIMARY KEY (`id_producto`),
     FOREIGN KEY (`codigo_promocion`)REFERENCES Promociones (`codigo_promocion`));
 
 
@@ -98,14 +99,14 @@ CREATE TABLE Descuentos (
 -- -----------------------------------------------------
 CREATE TABLE Detalle_Venta (
   `codigo_detalle_venta` INT NOT NULL AUTO_INCREMENT,
-  `sku_producto` varchar(8) NOT NULL,
+  `id_producto` int NOT NULL,
   `codigo_venta` INT NOT NULL,
   `codigo_descuento` INT NOT NULL,
   `fecha` DATE NOT NULL,
   `cantidad` INT NOT NULL,
   `total` INT NOT NULL,
   PRIMARY KEY (`codigo_detalle_venta`),
-    FOREIGN KEY (`sku_producto`) REFERENCES Productos (`sku_producto`),
+    FOREIGN KEY (`id_producto`) REFERENCES Productos (`id_producto`),
     FOREIGN KEY (`codigo_venta`) REFERENCES Ventas (`codigo_venta`),
     FOREIGN KEY (`codigo_descuento`) REFERENCES Descuentos (`codigo_descuento`));
 
@@ -115,11 +116,11 @@ CREATE TABLE Detalle_Venta (
 -- -----------------------------------------------------
 CREATE TABLE Historico_Productos (
   `codigo_historico_p` INT NOT NULL AUTO_INCREMENT,
-  `sku_producto` varchar(8) NOT NULL,
+  `id_producto` int NOT NULL,
   `precio_producto_h` INT NOT NULL,
   `fecha_h` DATE NOT NULL,
   PRIMARY KEY (`codigo_historico_p`),
-    FOREIGN KEY (`sku_producto`) REFERENCES Productos (`sku_producto`));
+    FOREIGN KEY (`id_producto`) REFERENCES Productos (`id_producto`));
 
 /********************************ALGUNOS INSERT*********************************************/
 
@@ -168,4 +169,9 @@ VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
 -- -----------------------------------------------------
 INSERT INTO productos(`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
 VALUES('VAPO01PB','');
+
+select * from productos;
+
+update productos set sku_producto= "+sku+" where sku_producto = "+sku+""
+
 
