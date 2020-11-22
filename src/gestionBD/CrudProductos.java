@@ -62,9 +62,10 @@ public class CrudProductos {
         modelo.addColumn("Nombre Producto");
         modelo.addColumn("Descripcion");
         modelo.addColumn("Precio");
+        modelo.addColumn("IVA");
         modelo.addColumn("Codigo Promocion");
 
-        String[] productos = new String[6];
+        String[] productos = new String[7];
 
         jtProductos.setModel(modelo);
 
@@ -72,7 +73,7 @@ public class CrudProductos {
             con = Conexion.conectar();
             stm = con.createStatement();
             rs = stm.executeQuery("Select sku_producto , codigobarra_producto , "
-                    + "nombre_producto , descripcion_producto ,precio_neto , codigo_promocion from productos");
+                    + "nombre_producto , descripcion_producto ,precio_neto ,precio_iva, codigo_promocion from productos");
 
             while (rs.next()) {
 
@@ -81,7 +82,8 @@ public class CrudProductos {
                 productos[2] = rs.getString("nombre_producto");
                 productos[3] = rs.getString("descripcion_producto");
                 productos[4] = rs.getString("precio_neto");
-                productos[5] = rs.getString("codigo_promocion");
+                productos[5] = rs.getString("precio_iva");
+                productos[6] = rs.getString("codigo_promocion");
 
                 modelo.addRow(productos);
             }
@@ -117,7 +119,7 @@ public class CrudProductos {
         }
     }
 
-    public boolean modificarProd(String sku , String codigo , String nombre , String descripcion , double precio , int codpromo) {
+    public boolean modificarProd(String sku , String codigo , String nombre , String descripcion , double precio , int codpromo, double iva) {
         Connection con = null;
         Statement stm;
         ResultSet rs;
@@ -127,7 +129,7 @@ public class CrudProductos {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            resultUpdate = stm.executeUpdate("update productos set sku_producto= "+sku+", codigobarra_producto = '"+codigo+"', nombre_producto ='"+nombre+"', descripcion_producto = '"+descripcion+"', precio_neto= "+precio+", codigo_promocion ="+codpromo+" where sku_producto = "+sku+"");
+            resultUpdate = stm.executeUpdate("update productos set sku_producto= "+sku+", codigobarra_producto = '"+codigo+"', nombre_producto ='"+nombre+"', descripcion_producto = '"+descripcion+"', precio_neto= "+precio+",precio_iva="+iva+" ,codigo_promocion ="+codpromo+" where sku_producto = "+sku+"");
             if (resultUpdate != 0) {
                 Conexion.cerrar();
                 JOptionPane.showMessageDialog(null, "El producto se modifico correctamente");

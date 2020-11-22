@@ -354,7 +354,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         //    productos.setCodPromo(Integer.parseInt(txtPromo.getText()));
 
         crudProd.modificarProd(productos.getSku(), productos.getCodigo(),
-            productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo());
+            productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva());
 
         crudProd.mostrarProductos(jtProductos);
 
@@ -387,6 +387,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtSku.setText(String.valueOf(jtProductos.getValueAt(seleccion, 0)));
         txtCodigoProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 1)));
         txtNombreProd.setText(String.valueOf(jtProductos.getValueAt(seleccion, 2)));
+        txtIva.setText(String.valueOf(jtProductos.getValueAt(seleccion, 5)));
         txtDesc.setText(String.valueOf(jtProductos.getValueAt(seleccion, 3)));
         txtPrecio.setText(String.valueOf(jtProductos.getValueAt(seleccion, 4)));
         //  txtPromo.setText(String.valueOf(jtProductos.getValueAt(seleccion, 5)));
