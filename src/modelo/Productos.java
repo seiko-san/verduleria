@@ -16,20 +16,28 @@ public class Productos {
     String nombre;
     String descripcion;
     double precio;
-   
+    double iva;
     int codPromo;
 
     public Productos() {
     }
 
-    public Productos(String sku, String codigo, String nombre, String descripcion, double precio, int codPromo) {
+    public Productos(String sku, String codigo, String nombre, String descripcion, double precio, double iva, int codPromo) {
         this.sku = sku;
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-    
+        this.iva = iva;
         this.codPromo = codPromo;
+    }
+
+    public double getIva() {
+        return iva;
+    }
+
+    public void setIva(double iva) {
+        this.iva = iva;
     }
 
     public String getSku() {
@@ -72,7 +80,6 @@ public class Productos {
         this.precio = precio;
     }
 
-   
     public int getCodPromo() {
         return codPromo;
     }
@@ -80,12 +87,5 @@ public class Productos {
     public void setCodPromo(int codPromo) {
         this.codPromo = codPromo;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

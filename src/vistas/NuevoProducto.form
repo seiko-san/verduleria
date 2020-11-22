@@ -95,20 +95,24 @@
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel20" alignment="1" pref="97" max="32767" attributes="0"/>
-                                  <Component id="jLabel17" alignment="1" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel15" alignment="1" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jLabel20" alignment="1" pref="97" max="32767" attributes="0"/>
+                                      <Component id="jLabel17" alignment="1" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel15" alignment="1" min="-2" pref="65" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtSku" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
-                                  <Component id="txtDesc" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
-                                  <Component id="txtNombreProd" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtSku" alignment="0" pref="199" max="32767" attributes="0"/>
+                                  <Component id="txtDesc" alignment="0" pref="199" max="32767" attributes="0"/>
+                                  <Component id="txtNombreProd" alignment="0" pref="199" max="32767" attributes="0"/>
+                                  <Component id="txtIva" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="214" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
@@ -182,6 +186,11 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtDesc" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtIva" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -355,6 +364,13 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnvolverActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="IVA"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtIva">
             </Component>
           </SubComponents>
         </Container>
