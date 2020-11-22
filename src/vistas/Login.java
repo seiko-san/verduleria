@@ -133,11 +133,11 @@ public class Login extends javax.swing.JFrame {
 
         
         
-        String nombre = jtxtUsuario.getText();
-        ver.lblvendedor.setText(nombre);
+        String cod = jtxtUsuario.getText();
+        ver.lblcodigo.setText(cod);
         String suc = cbxSucursal.getSelectedItem().toString();
         ver.lblsucursal.setText(suc);
-        
+        ver.lblvendedor.setText(ingreso.nombre);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void cbxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSucursalActionPerformed

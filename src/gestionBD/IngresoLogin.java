@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import vistas.Principal;
 
 /**
  *
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  * @collaborator seiko
  */
 public class IngresoLogin {
-
+    public String nombre = "";
     public void llenarCombobox(JComboBox cbxSucursal) {
 
         Connection con = null;
@@ -48,7 +49,7 @@ public class IngresoLogin {
         Connection con = null;
         Statement stm;
         ResultSet rs;
-
+        Principal p = new Principal();
         int resultado = 0;
         try {
             con = Conexion.conectar();
@@ -57,10 +58,12 @@ public class IngresoLogin {
                     + "vendedores ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal WHERE codigo_vendedor = '" + usuario + "' and nombre_sucursal='" + sucursal + "'");
 
             if (rs.next()) {
-
+                
                 resultado = 1;
+                nombre= rs.getString(2);
+                
             }
-
+          
             
 
             Conexion.cerrar();
