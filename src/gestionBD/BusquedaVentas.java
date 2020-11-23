@@ -5,23 +5,48 @@
  */
 package gestionBD;
 
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JList;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import vistas.Principal;
 
 /**
  *
  * @author joako
+ * @collaborator seiko
  */
-public class MostrarRangoFecha {
+public class BusquedaVentas {
 
-    public void ConsultaProductoFecha(String fecha_inicio, String fecha_final, JTable jtmostrar_productos) {
+    public void llenarCombobox(JComboBox cbxSucursal) {
+
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        cbxSucursal.addItem("Seleccione una sucursal");
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("Select nombre_sucursal from sucursales");
+
+            while (rs.next()) {
+                cbxSucursal.addItem(rs.getString("nombre_sucursal"));
+
+            }
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void ConsultasVentasTiendas(String Sucursal, JTable jtventastiendas) {
 
         Connection con = null;
         Statement stm;
@@ -30,18 +55,18 @@ public class MostrarRangoFecha {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre Producto");
         modelo.addColumn("Cantidad Venta");
-        modelo.addColumn("Fecha Venta");
-
+        modelo.addColumn("Precio Unitario");
+        modelo.addColumn("Precio Total");
 
         String[] MayorVentaFecha = new String[6];
 
-        jtmostrar_productos.setModel(modelo);
+        jtventastiendas.setModel(modelo);
 
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("select SUM(detalle_venta.cantidad),detalle_venta.codigo_detalle_venta, productos.nombre_producto, \n"
-                    + "descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,\n"
+            rs = stm.executeQuery("select  productos.nombre_producto, \n"
+                    + "descuentos.descuento, SUM(detalle_venta.cantidad), detalle_venta.total,  SUM(detalle_venta.total),\n"
                     + "vendedores.nombre_vendedor,  clientes.nombre_cliente,\n"
                     + "ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal\n"
                     + "FROM detalle_venta\n"
@@ -51,17 +76,18 @@ public class MostrarRangoFecha {
                     + "join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal\n"
                     + "JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento\n"
                     + "JOIN Productos ON detalle_venta.id_producto = Productos.id_producto\n"
-                    + "where ventas.fecha_venta  BETWEEN  '" + fecha_inicio + "' and '" + fecha_final + "' group by productos.nombre_producto desc");
+                    + "where sucursales.nombre_sucursal = '"+ Sucursal +"' GROUP BY Productos.nombre_producto;");
 
             while (rs.next()) {
 
                 MayorVentaFecha[0] = rs.getString("nombre_producto");
                 MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");
-                MayorVentaFecha[2] = rs.getString("fecha_venta");
+                MayorVentaFecha[2] = rs.getString("total");
+                MayorVentaFecha[3] = rs.getString("SUM(detalle_venta.total)");
 
                 modelo.addRow(MayorVentaFecha);
             }
-            jtmostrar_productos.setModel(modelo);
+            jtventastiendas.setModel(modelo);
             Conexion.cerrar();
         } catch (SQLException e) {
             System.out.println("Error" + e.getMessage());
