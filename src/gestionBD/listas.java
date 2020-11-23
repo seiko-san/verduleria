@@ -5,12 +5,15 @@
  */
 package gestionBD;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import vistas.Principal;
 
 /**
  *
@@ -30,7 +33,7 @@ public class listas {
         modeloventas.addColumn("descuento");
         modeloventas.addColumn("cantidad");
         modeloventas.addColumn("total");
-       // modeloventas.addColumn("cod venta");
+        // modeloventas.addColumn("cod venta");
         modeloventas.addColumn("vendedor");
         modeloventas.addColumn("cliente");
         modeloventas.addColumn("fecha");
@@ -117,6 +120,59 @@ public class listas {
             System.out.println("Error" + e.getMessage());
         }
 
+    }
+
+    public int agregaproductos(String producto, JTable jagrega) {
+        Principal ver = new Principal();
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        DefaultTableModel modeloagrega = new DefaultTableModel();
+
+        modeloagrega.addColumn("Sku producto");
+        modeloagrega.addColumn("codigo de Barra");
+        modeloagrega.addColumn("Producto");
+        modeloagrega.addColumn("Descripcion");
+        modeloagrega.addColumn("precio total");
+//        modeloagrega.addColumn("cantidad");
+        modeloagrega.addColumn("promocion");
+        int resultado = 0;
+        String[] productos = new String[6];
+
+        jagrega.setModel(modeloagrega);
+        
+        
+        
+        try {
+//            String valor  = (String) ver.jcant.getValue();
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT productos.sku_producto,productos.codigobarra_producto,\n"
+                    + "productos.nombre_producto,productos.descripcion_producto,\n"
+                    + "productos.precio_iva, promociones.nombre_promocion\n"
+                    + " From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion \n"
+                    + " WHERE productos.codigobarra_producto = '"+producto+"'");
+
+            while (rs.next()) {
+
+                productos[0] = rs.getString("productos.sku_producto");
+                productos[1] = rs.getString("productos.codigobarra_producto");
+                productos[2] = rs.getString("productos.nombre_producto");
+                productos[3] = rs.getString("productos.descripcion_producto");
+                productos[4] = rs.getString("productos.precio_iva");
+//                productos[4] = valor;
+                productos[5] = rs.getString("promociones.nombre_promocion");
+
+                modeloagrega.addRow(productos);
+                resultado = 1;
+            }
+            jagrega.setModel(modeloagrega);
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+        return resultado;
     }
 
 }
