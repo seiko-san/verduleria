@@ -169,21 +169,31 @@ VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
 -- Insert Ventas
 -- -----------------------------------------------------
 INSERT INTO ventas(`codigo_vendedor`,`id_cliente`,`fecha_venta`,`hora_venta`)
-VALUES('1',1,'2000-01-01','05:05:00');
+VALUES('1',1,'2000-01-01','05:05:00'),('1',2,'2000-01-01','05:05:00'),('1',1,'2000-01-03','05:05:00'),('1',1,'2000-02-01','05:05:00'),
+('1',1,'2000-01-02','05:05:00'),('1',1,'2000-01-11','05:05:00'),('1',1,'2000-01-11','05:05:00'),('1',1,'2000-01-08','05:05:00');
 
 
 -- -----------------------------------------------------
 -- Insert Productos
 -- -----------------------------------------------------
 INSERT INTO productos(`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
-VALUES('VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2);
+VALUES('VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2),('VAPO02PV','02-PV','Platano Verde','Platano Verde',1500,200,2),
+('VAPO03MR','03-MR','Manzana ROja','Manzana Roja',1500,200,1),('VAPO04MV','04-MV','Manzana Verde','Manzana Verde',1500,200,1),
+('VAPO05LE','05-LE','Lechuga Escarola','Lechuga Escarola',1500,200,1);
 
+select * from productos
 -- -----------------------------------------------------
 -- Insert Detalle Venta
 -- -----------------------------------------------------
 
-INSERT INTO detalle_venta(`codigo_detalle_venta`,`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
-VALUES(1,1,1,1,1,1800);
+INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
+VALUES(3,6,1,1,1800),(3,7,1,1,1800),
+(3,8,1,1,1800),(4,9,1,1,1800);
+
+INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
+VALUES(1,2,1,1,1800),(1,3,1,1,1800),(1,4,1,1,1800),(2,5,1,1,1800),(3,6,1,1,1800),(3,7,1,1,1800),
+(3,8,1,1,1800),(4,9,1,1,1800);
+
 
 Vendedores.nombre_vendedor
 
@@ -197,6 +207,23 @@ Join Vendedores on s.sucursales.codigo_sucursal = vendedores.codigo_sucursal
 JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
 JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
 JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
+JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
+JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
+
+
+
+
+
+
+select detalle_venta.codigo_detalle_venta, productos.nombre_producto, 
+descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,
+vendedores.nombre_vendedor,  clientes.nombre_cliente,
+ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal
+FROM detalle_venta
+JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
+JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
+JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
+join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal
 JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
 JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
 
