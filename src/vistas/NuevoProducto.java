@@ -6,9 +6,14 @@
 package vistas;
 
 import gestionBD.Conexion;
+import gestionBD.CrudHistoricoProd;
 import gestionBD.CrudProductos;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import modelo.Productos;
 
 /**
@@ -25,6 +30,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     Productos productos = new Productos();
     DefaultListModel modelo = new DefaultListModel();
     Principal ver = new Principal();
+    CrudHistoricoProd crudHistorico = new CrudHistoricoProd();
 
     public NuevoProducto() {
         initComponents();
@@ -67,6 +73,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtIva = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        btnHistorico = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
@@ -152,6 +159,13 @@ public class NuevoProducto extends javax.swing.JFrame {
 
         txtId.setEnabled(false);
 
+        btnHistorico.setText("Historico Productos");
+        btnHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoricoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -166,7 +180,7 @@ public class NuevoProducto extends javax.swing.JFrame {
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(88, 88, 88)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -195,14 +209,16 @@ public class NuevoProducto extends javax.swing.JFrame {
                                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(65, 65, 65)
                                         .addComponent(txtCodigoProd, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(177, 177, 177))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGap(156, 156, 156)
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btnEliminar)
                                     .addComponent(jLabel18))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(177, 177, 177))))
+                                .addGap(120, 120, 120)
+                                .addComponent(btnHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +267,8 @@ public class NuevoProducto extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56))
         );
 
@@ -320,7 +337,7 @@ public class NuevoProducto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 867, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -336,6 +353,10 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSkuActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        Date fecha = new Date();
+        DateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+
         int idlist = listpromocion.getSelectedIndex() + 1;
         productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
@@ -345,10 +366,17 @@ public class NuevoProducto extends javax.swing.JFrame {
         productos.setIva(Double.parseDouble(txtIva.getText()));
         productos.setCodPromo(idlist);
         //        productos.setText((String)lista.getSelectedValue());
+        int filasTabla = jtProductos.getRowCount();
         crudProd.ingresarProductos(productos.getSku(), productos.getCodigo(),
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva());
 
         crudProd.mostrarProductos(jtProductos);
+        if (jtProductos.getRowCount() > filasTabla) {
+            int id_producto = Integer.parseInt(String.valueOf(jtProductos.getValueAt(jtProductos.getRowCount() - 1, 0)));
+            crudHistorico.ingresarHistorico(id_producto, productos.getPrecio(), String.valueOf(formato.format(fecha)));
+            System.out.println(jtProductos.getRowCount() + " " + filasTabla + " " + id_producto + " " + String.valueOf(formato.format(fecha)));
+
+        }
 
         txtSku.setText("");
         txtCodigoProd.setText("");
@@ -362,6 +390,12 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+
+        Date fecha = new Date();
+        DateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+
+        int seleccion = jtProductos.getSelectedRow();
+
         int idlist = listpromocion.getSelectedIndex() + 1;
         productos.setSku(txtSku.getText());
         productos.setCodigo(txtCodigoProd.getText());
@@ -372,11 +406,19 @@ public class NuevoProducto extends javax.swing.JFrame {
         productos.setIva(Double.parseDouble(txtIva.getText()));
         productos.setCodPromo(idlist);
         //    productos.setCodPromo(Integer.parseInt(txtPromo.getText()));
+        String precioAntes = String.valueOf(jtProductos.getValueAt(seleccion, 5));
         crudProd.modificarProd(productos.getSku(), productos.getCodigo(),
                 productos.getNombre(), productos.getDescripcion(), productos.getPrecio(), productos.getCodPromo(), productos.getIva(), productos.getId());
 
         crudProd.mostrarProductos(jtProductos);
-        
+        String precioDespues = String.valueOf(jtProductos.getValueAt(seleccion, 5));
+
+        if (!precioAntes.equals(precioDespues)) {
+
+            crudHistorico.ingresarHistorico(productos.getId(), productos.getPrecio(), String.valueOf(formato.format(fecha)));
+            System.out.println("Se cambio el precio pa");
+        }
+        System.out.println(precioAntes + " " + precioDespues);
         txtId.setText("");
         txtSku.setText("");
         txtCodigoProd.setText("");
@@ -423,6 +465,13 @@ public class NuevoProducto extends javax.swing.JFrame {
         this.setVisible(false);
 
     }//GEN-LAST:event_btnvolverActionPerformed
+
+    private void btnHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoricoActionPerformed
+
+        HistoricoProductos historico = new HistoricoProductos();
+        
+        historico.setVisible(true);
+    }//GEN-LAST:event_btnHistoricoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -481,6 +530,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnHistorico;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnvolver;
     private javax.swing.JLabel jLabel1;
