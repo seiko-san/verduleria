@@ -194,7 +194,7 @@ VALUES(1,2,1,1,1800),(1,3,1,1,1800),(1,4,1,1,1800),(2,5,1,1,1800),(3,6,1,1,1800)
 
 
 
-select detalle_venta.codigo_detalle_venta, productos.nombre_producto, 
+select SUM(detalle_venta.cantidad), detalle_venta.codigo_detalle_venta, productos.nombre_producto, 
 descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,
 vendedores.nombre_vendedor,  clientes.nombre_cliente,
 ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal
@@ -205,7 +205,35 @@ JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
 join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal
 JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
 JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
-where ventas.fecha_venta  BETWEEN  '2000-01-01' and '2000-01-10'
+where ventas.fecha_venta  BETWEEN  '2000-01-01' and '2000-01-11' group by productos.nombre_producto 
+
+select  productos.nombre_producto, 
+descuentos.descuento, SUM(detalle_venta.cantidad), detalle_venta.total,  SUM(detalle_venta.total),
+vendedores.nombre_vendedor,  clientes.nombre_cliente,
+ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal
+FROM detalle_venta
+JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
+JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
+JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
+join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal
+JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
+JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
+where sucursales.nombre_sucursal = 'Verduleria Apoquindo' GROUP BY Productos.nombre_producto;
+
+
+
+
+
+SELECT sku_producto ,codigobarra_producto, 
+nombre_producto , descripcion_producto , precio_neto , nombre_promocion
+From productos 
+join promociones on productos.codigo_promocion = promociones.codigo_promocion 
+where  codigobarra_producto like '06-LE' and  sku_producto  like 'VAPO%'
+
+select * from vendedores where nombre_vendedor like 'Pedr%' 
+
+
+
 
 
  

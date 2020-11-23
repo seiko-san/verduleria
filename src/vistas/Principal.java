@@ -140,7 +140,19 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, nombre_producto , descripcion_producto , precio_neto , nombre_promocion From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion where  codigobarra_producto = '" + codigo_barra.getText()+ "'");
+            rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, "
+                    + "nombre_producto , descripcion_producto , precio_neto , "
+                    + "nombre_promocion "
+                    + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
+                    + "where  codigobarra_producto = '" + codigo_barra.getText()+ "'");
+
+
+            /*Probando otra version con LIKE PEDRO*/
+//            rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, "
+//                    + "nombre_producto , descripcion_producto , precio_neto , "
+//                    + "nombre_promocion "
+//                    + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
+//                    + "where  codigobarra_producto like '"+ codigo_barra.getText() +"' and  sku_producto  like '"+ lblsucursal +"%'");
 
             if (codigo_barra == null) {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
@@ -157,8 +169,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                      nombrePromo.setText(rs.getString(6));
                 } else {
                     //JOptionPane.showMessageDialog(null, "No se encontro datos!");
-                    int opcion = JOptionPane.showConfirmDialog(null, "No se encontraron referencias\n ¿Desea crear el cliente?", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println(opcion);
+                    JOptionPane.showMessageDialog(null, "No se encontraron referencias");
+//                    int opcion = JOptionPane.showConfirmDialog(null, "No se encontraron referencias", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+//                    System.out.println(opcion);
 
                 }
             }
