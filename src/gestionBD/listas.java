@@ -154,6 +154,7 @@ public class listas {
                     + " From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion \n"
                     + " WHERE productos.codigobarra_producto = '"+producto+"'");
 
+            
             while (rs.next()) {
 
                 productos[0] = rs.getString("productos.sku_producto");
