@@ -176,8 +176,8 @@ VALUES('1',1,'2000-01-01','05:05:00'),('1',2,'2000-01-01','05:05:00'),('1',1,'20
 -- -----------------------------------------------------
 -- Insert Productos
 -- -----------------------------------------------------
-INSERT INTO productos(`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
-VALUES('VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2),('VAPO02PV','02-PV','Platano Verde','Platano Verde',1500,200,2),
+INSERT INTO productos(`Id_producto`,`sku_producto`,`codigobarra_producto`,`nombre_producto`,`descripcion_producto`,`precio_neto`,`precio_iva`,`codigo_promocion`)
+VALUES(2,'VAPO02MC','02-MC','Melon Calameno','Melon Calameno',1500,200,2)(2,'VAPO01MT','01-MT','Melon Tuna','Melon tuna',1500,200,2),('VAPO02PV','02-PV','Platano Verde','Platano Verde',1500,200,2),
 ('VAPO03MR','03-MR','Manzana ROja','Manzana Roja',1500,200,1),('VAPO04MV','04-MV','Manzana Verde','Manzana Verde',1500,200,1),
 ('VAPO05LE','05-LE','Lechuga Escarola','Lechuga Escarola',1500,200,1);
 
@@ -186,31 +186,10 @@ select * from productos
 -- Insert Detalle Venta
 -- -----------------------------------------------------
 
-INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
-VALUES(3,6,1,1,1800),(3,7,1,1,1800),
-(3,8,1,1,1800),(4,9,1,1,1800);
 
 INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
 VALUES(1,2,1,1,1800),(1,3,1,1,1800),(1,4,1,1,1800),(2,5,1,1,1800),(3,6,1,1,1800),(3,7,1,1,1800),
 (3,8,1,1,1800),(4,9,1,1,1800);
-
-
-Vendedores.nombre_vendedor
-
-SELECT detalle_venta.codigo_detalle_venta,
-       detalle_venta.id_producto, 
-       detalle_venta.codigo_descuento,detalle_venta.cantidad,  detalle_venta.total,ventas.codigo_venta,  ventas.codigo_vendedor,ventas.id_cliente, ventas.fecha_venta,   ventas.hora_venta 
-
-select vendedores.codigo_sucursal
-FROM detalle_venta,s.sucursales
-Join Vendedores on s.sucursales.codigo_sucursal = vendedores.codigo_sucursal 
-JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
-JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
-JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
-JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
-JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
-
-
 
 
 
@@ -226,26 +205,8 @@ JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor
 join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal
 JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
 JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
+where ventas.fecha_venta  BETWEEN  '2000-01-01' and '2000-01-10'
 
 
-
-
-
-
-
-
-
-
-
- INSERT INTO detalle_venta(`id_producto`,`codigo_venta`,`codigo_descuento`,`cantidad`,`total`)
-VALUES(1,1,1,1,5000);
-
-
-
-Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`verduleria`.`detalle_venta`, CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`))
-
-
-
-select * from detalle_venta;
  
 SET FOREIGN_KEY_CHECKS = 1;

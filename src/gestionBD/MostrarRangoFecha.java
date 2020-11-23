@@ -28,9 +28,9 @@ public class MostrarRangoFecha {
         ResultSet rs;
 
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Cliente");
-        modelo.addColumn("Rut Cliente");
-//        modelo.addColumn("Nombre Cliente");
+        modelo.addColumn("Nombre Producto");
+        modelo.addColumn("Cantidad Venta");
+        modelo.addColumn("Fecha Venta");
 //        modelo.addColumn("Correo Cliente");
 //        modelo.addColumn("Telefono Cliente");
 //        modelo.addColumn("Direccion Cliente");
@@ -43,7 +43,7 @@ public class MostrarRangoFecha {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("select detalle_venta.codigo_detalle_venta, productos.nombre_producto, \n" +
+            rs = stm.executeQuery("select SUM(detalle_venta.cantidad),detalle_venta.codigo_detalle_venta, productos.nombre_producto, \n" +
 "descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,\n" +
 "vendedores.nombre_vendedor,  clientes.nombre_cliente,\n" +
 "ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal\n" +
@@ -54,12 +54,13 @@ public class MostrarRangoFecha {
 "join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal\n" +
 "JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento\n" +
 "JOIN Productos ON detalle_venta.id_producto = Productos.id_producto\n" +
-"where ventas.fecha_venta  BETWEEN  '"+ fecha_inicio +"' and '"+ fecha_final +"'");
+"where ventas.fecha_venta  BETWEEN  '"+ fecha_inicio +"' and '"+ fecha_final +"' group by productos.nombre_producto");
 
             while (rs.next()) {
                 
-                MayorVentaFecha[0] = rs.getString("codigo_detalle_venta");
-                MayorVentaFecha[1] = rs.getString("nombre_producto");
+                MayorVentaFecha[0] = rs.getString("nombre_producto");
+                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");
+                MayorVentaFecha[2] = rs.getString("fecha_venta");
 //                MayorVentaFecha[2] = rs.getString("nombre_cliente");
 //                MayorVentaFecha[3] = rs.getString("correo_cliente");
 //                MayorVentaFecha[4] = rs.getString("telefono_cliente");
