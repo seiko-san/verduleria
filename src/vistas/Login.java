@@ -53,7 +53,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
-        jtxtUsuario.setBackground(new java.awt.Color(255, 204, 255));
+        jtxtUsuario.setBackground(new java.awt.Color(102, 255, 204));
         jtxtUsuario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jtxtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

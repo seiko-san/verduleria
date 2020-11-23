@@ -29,7 +29,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import listas.Clientes;
 import listas.Ventas;
-
+import listas.ProductosFecha;
+import listas.VentasTiendas;
 /**
  *
  * @author Seiko
@@ -61,6 +62,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         modelo1.addColumn("precio total");
         modelo1.addColumn("cantidad");
         modelo1.addColumn("promocion");
+       // setDefaultCloseOperation(0);
     }
 
     DefaultTableModel modelo1 = new DefaultTableModel();
@@ -238,6 +240,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel14 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAgregar = new javax.swing.JMenu();
         menuCliente = new javax.swing.JMenu();
@@ -245,6 +248,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         menuListar = new javax.swing.JMenu();
         menuVentas = new javax.swing.JMenu();
         menuclientes = new javax.swing.JMenu();
+        menufecha = new javax.swing.JMenu();
+        menusucursal = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -646,6 +651,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel16.setText("Verduras Chile S.A");
         jLabel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 204)));
 
+        jButton1.setBackground(new java.awt.Color(102, 255, 102));
+        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jButton1.setText("Cerrar Sesion");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -667,17 +681,21 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel16)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(22, 22, 22)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16)
-                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jButton1))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -688,7 +706,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 204, 102));
@@ -757,6 +775,24 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         });
         menuListar.add(menuclientes);
 
+        menufecha.setText("Producto Por Fecha");
+        menufecha.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menufecha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menufechaMouseClicked(evt);
+            }
+        });
+        menuListar.add(menufecha);
+
+        menusucursal.setText("Ventas Sucursal");
+        menusucursal.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menusucursal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menusucursalMouseClicked(evt);
+            }
+        });
+        menuListar.add(menusucursal);
+
         jMenuBar1.add(menuListar);
 
         setJMenuBar(jMenuBar1);
@@ -815,7 +851,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         NuevoCliente cliente = new NuevoCliente();
         cliente.setVisible(true);
-        this.setVisible(false);
 
     }//GEN-LAST:event_menuClienteMouseClicked
 
@@ -823,22 +858,19 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         NuevoProducto ver = new NuevoProducto();
         ver.setVisible(true);
-        this.setVisible(false);
-
+        
     }//GEN-LAST:event_menuProductoMouseClicked
 
     private void menuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuVentasMouseClicked
 
         Ventas ver = new Ventas();
         ver.setVisible(true);
-        this.setVisible(false);
 
     }//GEN-LAST:event_menuVentasMouseClicked
 
     private void menuclientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuclientesMouseClicked
         Clientes ver = new Clientes();
         ver.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_menuclientesMouseClicked
 
     private void txtnomproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnomproductoActionPerformed
@@ -862,6 +894,25 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jcant.setValue(0);
 
     }//GEN-LAST:event_btnagregapActionPerformed
+
+    private void menufechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menufechaMouseClicked
+        
+        ProductosFecha ver = new ProductosFecha();
+        ver.setVisible(true);
+        
+    }//GEN-LAST:event_menufechaMouseClicked
+
+    private void menusucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menusucursalMouseClicked
+      
+        VentasTiendas ver = new VentasTiendas();
+        ver.setVisible(true);
+        
+    }//GEN-LAST:event_menusucursalMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -937,6 +988,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton btnbuscacliente;
     private javax.swing.JButton btnbuscaproducto;
     private javax.swing.JButton btnlimpiar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -979,6 +1031,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menuProducto;
     private javax.swing.JMenu menuVentas;
     private javax.swing.JMenu menuclientes;
+    private javax.swing.JMenu menufecha;
+    private javax.swing.JMenu menusucursal;
     private javax.swing.JTextField txtNombrePromo;
     private javax.swing.JTextField txtcodigobarra;
     private javax.swing.JTextArea txtdescripcion;
