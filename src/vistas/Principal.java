@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import listas.Clientes;
 import listas.Ventas;
 
@@ -52,7 +53,17 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         this.setLocationRelativeTo(null);
         llenarlista();
         this.setResizable(false);
+        this.jagrega.setModel(modelo1);
+        modelo1.addColumn("Sku producto");
+        modelo1.addColumn("codigo de Barra");
+        modelo1.addColumn("Producto");
+        modelo1.addColumn("Descripcion");
+        modelo1.addColumn("precio total");
+        modelo1.addColumn("cantidad");
+        modelo1.addColumn("promocion");
     }
+
+    DefaultTableModel modelo1 = new DefaultTableModel();
 
     public void hora() {
         Calendar calendario = new GregorianCalendar();
@@ -90,9 +101,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
                 if (rs.next()) {
                     //resultado = 1;
-                   // rs.getString(2);
+                    // rs.getString(2);
                     nomnbre_cliente.setText(rs.getString(3));
-                   // System.out.println(rs);
+                    // System.out.println(rs);
                 } else {
                     //JOptionPane.showMessageDialog(null, "No se encontro datos!");
                     int opcion = JOptionPane.showConfirmDialog(null, "No se encontraron referencias\n ¿Desea crear el cliente?", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -119,7 +130,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaProducto(String codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion) {
+    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion , JTextField nombrePromo) {
 
         Connection con = null;
         Statement stm;
@@ -129,9 +140,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("SELECT * From productos where  codigobarra_producto = '" + codigo_barra + "'");
+            rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, nombre_producto , descripcion_producto , precio_neto , nombre_promocion From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion where  codigobarra_producto = '" + codigo_barra.getText()+ "'");
 
-            if (codigo_barra.isEmpty()) {
+            if (codigo_barra == null) {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
             } else {
 
@@ -139,11 +150,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     //resultado = 1;
                     // rs.getString(2);
                     sku_producto.setText(rs.getString(2));
-                    
-                    nombre_producto.setText(rs.getString(4));
-                    precio_final.setText(rs.getString(7));
-                    descripcion.setText(rs.getString(5));
-                    
+                   codigo_barra.setText(rs.getString(1));
+                    nombre_producto.setText(rs.getString(3));
+                    precio_final.setText(rs.getString(5));
+                    descripcion.setText(rs.getString(4));
+                     nombrePromo.setText(rs.getString(6));
                 } else {
                     //JOptionPane.showMessageDialog(null, "No se encontro datos!");
                     int opcion = JOptionPane.showConfirmDialog(null, "No se encontraron referencias\n ¿Desea crear el cliente?", "Consulta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -197,6 +208,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtdescripcion = new javax.swing.JTextArea();
+        txtNombrePromo = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtrutcliente = new javax.swing.JTextField();
@@ -417,9 +429,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                             .addComponent(jcant, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtnomproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 167, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(139, 139, 139)
                         .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))))
         );
@@ -450,7 +464,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                             .addComponent(jLabel11)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                         .addGap(133, 133, 133)
-                                        .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(0, 7, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -760,7 +776,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         String codigo_barra = txtcodigobarra.getText();
 //        int id_producto = Integer.parseInt(prod);
-        ConsultaProducto(codigo_barra,  txtsku,  txtnomproducto,  txtprecio, txtdescripcion);
+        ConsultaProducto(txtcodigobarra, txtsku, txtnomproducto, txtprecio, txtdescripcion, txtNombrePromo);
 
     }//GEN-LAST:event_btnbuscaproductoActionPerformed
 
@@ -817,10 +833,13 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_txtnomproductoActionPerformed
 
     private void btnagregapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregapActionPerformed
-        String producto = txtcodigobarra.getText();
-        listas list = new listas();
-        list.agregaproductos(producto, jagrega);
-        Object guarda = jcant.getValue();
+//        String producto = txtcodigobarra.getText();
+//        listas list = new listas();
+//        list.agregaproductos(producto, jagrega);
+//        Object guarda = jcant.getValue();
+
+        this.modelo1.addRow(new Object[]{txtcodigobarra.getText(), txtsku.getText() , txtdescripcion.getText(),txtnomproducto.getText(),txtprecio.getText() , jcant.getValue(),txtNombrePromo.getText()});
+
         //int pguarda = Integer.parseInt((String) guarda);
         txtcodigobarra.setText("");
         txtsku.setText("");
@@ -828,7 +847,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtnomproducto.setText("");
         txtprecio.setText("");
         jcant.setValue(0);
-        
+
     }//GEN-LAST:event_btnagregapActionPerformed
 
     /**
@@ -894,7 +913,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
                 new Principal().setVisible(true);
             }
         });
@@ -947,6 +966,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menuProducto;
     private javax.swing.JMenu menuVentas;
     private javax.swing.JMenu menuclientes;
+    private javax.swing.JTextField txtNombrePromo;
     private javax.swing.JTextField txtcodigobarra;
     private javax.swing.JTextArea txtdescripcion;
     public javax.swing.JTextField txtnombrecliente;
