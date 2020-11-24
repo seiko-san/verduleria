@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -176,6 +177,29 @@ public class listas {
         return resultado;
     }
     
+    public void llenarCombobox(JComboBox cbxDesc) {
+
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        cbxDesc.addItem("Seleccione un descuento");
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("Select descuento from descuentos");
+
+            while (rs.next()) {
+                cbxDesc.addItem(rs.getString("descuento"));
+
+            }
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.getMessage());
+        }
+
+    }
    
 
 }

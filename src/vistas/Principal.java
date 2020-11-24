@@ -19,10 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Productos;
 import gestionBD.Conexion;
+import gestionBD.CrudVentas;
 import gestionBD.IngresoLogin;
 import gestionBD.listas;
+import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -31,6 +34,7 @@ import listas.Clientes;
 import listas.Ventas;
 import listas.ProductosFecha;
 import listas.VentasTiendas;
+
 /**
  *
  * @author Seiko
@@ -44,10 +48,12 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     CrudProductos crudProd = new CrudProductos();
     Productos productos = new Productos();
     DefaultListModel modelo = new DefaultListModel();
+    listas lista = new listas();
 
     public Principal() {
         initComponents();
         //   this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        lista.llenarCombobox(cbxDesc);
         lblfecha.setText(fecha());
         hilo = new Thread(this);
         hilo.start();
@@ -62,7 +68,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         modelo1.addColumn("precio total");
         modelo1.addColumn("cantidad");
         modelo1.addColumn("promocion");
-       // setDefaultCloseOperation(0);
+        // setDefaultCloseOperation(0);
     }
 
     DefaultTableModel modelo1 = new DefaultTableModel();
@@ -85,7 +91,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaCliente(String rut_cliente, JTextField nomnbre_cliente) {
+    public void ConsultaCliente(String rut_cliente, JTextField nomnbre_cliente, JTextField id_cliente) {
 
         Connection con = null;
         Statement stm;
@@ -104,6 +110,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 if (rs.next()) {
                     //resultado = 1;
                     // rs.getString(2);
+                    id_cliente.setText(rs.getString(1));
                     nomnbre_cliente.setText(rs.getString(3));
                     // System.out.println(rs);
                 } else {
@@ -132,7 +139,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion , JTextField nombrePromo) {
+    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion, JTextField nombrePromo) {
 
         Connection con = null;
         Statement stm;
@@ -146,7 +153,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     + "nombre_producto , descripcion_producto , precio_neto , "
                     + "nombre_promocion "
                     + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
-                    + "where  codigobarra_producto = '" + codigo_barra.getText()+ "'");
+                    + "where  codigobarra_producto = '" + codigo_barra.getText() + "'");
 
 
             /*Probando otra version con LIKE PEDRO*/
@@ -155,7 +162,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 //                    + "nombre_promocion "
 //                    + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
 //                    + "where  codigobarra_producto like '"+ codigo_barra.getText() +"' and  sku_producto  like '"+ lblsucursal +"%'");
-
             if (codigo_barra == null) {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
             } else {
@@ -163,12 +169,14 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 if (rs.next()) {
                     //resultado = 1;
                     // rs.getString(2);
-                    sku_producto.setText(rs.getString(2));
-                   codigo_barra.setText(rs.getString(1));
+
+//                    int iva = Integer.parseInt(rs.)
+                    sku_producto.setText(rs.getString(1));
+//                   codigo_barra.setText(rs.getString(1));
                     nombre_producto.setText(rs.getString(3));
                     precio_final.setText(rs.getString(5));
-                    descripcion.setText(rs.getString(4));
-                     nombrePromo.setText(rs.getString(6));
+                    descripcion.setText(rs.getString(3));
+                    nombrePromo.setText(rs.getString(6));
                 } else {
                     //JOptionPane.showMessageDialog(null, "No se encontro datos!");
                     JOptionPane.showMessageDialog(null, "No se encontraron referencias");
@@ -231,14 +239,21 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel7 = new javax.swing.JLabel();
         txtnombrecliente = new javax.swing.JTextField();
         btnlimpiar = new javax.swing.JButton();
+        txtIdcliente = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jagrega = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnGenerarVenta = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txtPrecFinal = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txtDesc = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txtTotalSinDesc = new javax.swing.JTextField();
+        cbxDesc = new javax.swing.JComboBox<>();
+        btnCalcular = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -449,7 +464,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                             .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(139, 139, 139)
                         .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -538,11 +553,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addComponent(txtrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -550,7 +560,14 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnlimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnbuscacliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 22, Short.MAX_VALUE))))
+                        .addGap(0, 22, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtIdcliente)
+                            .addComponent(txtnombrecliente, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -562,7 +579,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     .addComponent(btnbuscacliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(txtIdcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -609,31 +628,65 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jButton4.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jButton4.setText("Cancelar");
 
-        jButton5.setBackground(new java.awt.Color(153, 255, 153));
-        jButton5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jButton5.setText("Generar Venta");
-        jButton5.setActionCommand("");
+        btnGenerarVenta.setBackground(new java.awt.Color(153, 255, 153));
+        btnGenerarVenta.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        btnGenerarVenta.setText("Generar Venta");
+        btnGenerarVenta.setActionCommand("");
+        btnGenerarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarVentaActionPerformed(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel14.setText("Total a Pagar:");
 
-        jTextField7.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jTextField7.setToolTipText("");
+        txtPrecFinal.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtPrecFinal.setToolTipText("");
+
+        jLabel17.setText("Descuento");
+
+        jLabel18.setText("Total ");
+
+        cbxDesc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxDescMouseClicked(evt);
+            }
+        });
+
+        btnCalcular.setText("Calcular");
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(30, 30, 30)
                 .addComponent(jButton4)
+                .addGap(55, 55, 55)
+                .addComponent(btnGenerarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cbxDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCalcular)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(txtTotalSinDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel17)
+                .addGap(18, 18, 18)
+                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
-                .addGap(61, 61, 61)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(227, 227, 227))
+                .addGap(18, 18, 18)
+                .addComponent(txtPrecFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -642,8 +695,14 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(txtTotalSinDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcular))
                 .addGap(11, 11, 11))
         );
 
@@ -706,7 +765,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 204, 102));
@@ -817,7 +876,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         //Cliente cliente = new Cliente();
 
         //cliente.ConsultaCliente(rut, txtnombrecliente);
-        ConsultaCliente(rut, txtnombrecliente);
+        ConsultaCliente(rut, txtnombrecliente, txtIdcliente);
 
     }//GEN-LAST:event_btnbuscaclienteActionPerformed
 
@@ -858,7 +917,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         NuevoProducto ver = new NuevoProducto();
         ver.setVisible(true);
-        
+
     }//GEN-LAST:event_menuProductoMouseClicked
 
     private void menuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuVentasMouseClicked
@@ -883,7 +942,44 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 //        list.agregaproductos(producto, jagrega);
 //        Object guarda = jcant.getValue();
 
-        this.modelo1.addRow(new Object[]{txtcodigobarra.getText(), txtsku.getText() , txtdescripcion.getText(),txtnomproducto.getText(),txtprecio.getText() , jcant.getValue(),txtNombrePromo.getText()});
+        int precio = Integer.parseInt(txtprecio.getText());
+        int cantidad = Integer.parseInt(String.valueOf(jcant.getValue()));
+        String promocion = txtNombrePromo.getText();
+
+        if (cantidad == 2 && promocion.equals("Promocion 2x1")) {
+
+            precio = (precio * cantidad) - precio;
+
+        } else if (cantidad == 3 && promocion.equals("Promocion 3x1")) {
+
+            precio = (precio * cantidad) - precio;
+
+        } else {
+            precio = precio * cantidad;
+        }
+
+        this.modelo1.addRow(new Object[]{txtsku.getText(), txtcodigobarra.getText(), txtdescripcion.getText(), txtnomproducto.getText(), precio, jcant.getValue(), txtNombrePromo.getText()});
+
+        int cantidadFinal = 0;
+        int totalPrec = 0;
+        for (int i = 0; i < modelo1.getRowCount(); i++) {
+            int cantidadDesc = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
+
+            cantidadFinal = cantidadDesc + cantidadFinal;
+
+            int precioTotal = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 4)));
+
+            totalPrec = precioTotal + totalPrec;
+
+        }
+        txtTotalSinDesc.setText(String.valueOf(totalPrec));
+        cbxDesc.setEnabled(false);
+
+        if (cantidadFinal >= 20) {
+
+            cbxDesc.setEnabled(true);
+
+        }
 
         //int pguarda = Integer.parseInt((String) guarda);
         txtcodigobarra.setText("");
@@ -896,23 +992,58 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnagregapActionPerformed
 
     private void menufechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menufechaMouseClicked
-        
+
         ProductosFecha ver = new ProductosFecha();
         ver.setVisible(true);
-        
+
     }//GEN-LAST:event_menufechaMouseClicked
 
     private void menusucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menusucursalMouseClicked
-      
+
         VentasTiendas ver = new VentasTiendas();
         ver.setVisible(true);
-        
+
     }//GEN-LAST:event_menusucursalMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbxDescMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxDescMouseClicked
+
+
+    }//GEN-LAST:event_cbxDescMouseClicked
+
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        int totalDesc = Integer.parseInt(txtTotalSinDesc.getText());
+        int totalPrecio = Integer.parseInt(txtTotalSinDesc.getText());
+        Double descuento = Double.parseDouble(String.valueOf(cbxDesc.getSelectedItem()));
+
+        descuento = descuento / 100;
+
+        totalDesc = (int) (totalDesc * descuento);
+
+        totalPrecio = totalPrecio - totalDesc;
+        txtDesc.setText(String.valueOf(totalDesc));
+        txtPrecFinal.setText(String.valueOf(totalPrecio));
+
+
+    }//GEN-LAST:event_btnCalcularActionPerformed
+
+    private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
+
+        int codVendedor = Integer.parseInt(lblcodigo.getText());
+        int idcliente = Integer.parseInt(txtIdcliente.getText());
+        String fecha = lblfecha.getText();
+        String hora = lblhora.getText();
+        
+        CrudVentas ventas = new CrudVentas();
+        
+        ventas.ingresarProductos(codVendedor, idcliente, fecha, hora);
+
+
+    }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -984,13 +1115,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCalcular;
+    private javax.swing.JButton btnGenerarVenta;
     private javax.swing.JButton btnagregap;
     private javax.swing.JButton btnbuscacliente;
     private javax.swing.JButton btnbuscaproducto;
     private javax.swing.JButton btnlimpiar;
+    private javax.swing.JComboBox<String> cbxDesc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -999,6 +1132,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1017,7 +1152,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTable jagrega;
     public javax.swing.JSpinner jcant;
     public javax.swing.JLabel lblcodigo;
@@ -1033,7 +1167,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menuclientes;
     private javax.swing.JMenu menufecha;
     private javax.swing.JMenu menusucursal;
+    private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtIdcliente;
     private javax.swing.JTextField txtNombrePromo;
+    private javax.swing.JTextField txtPrecFinal;
+    private javax.swing.JTextField txtTotalSinDesc;
     private javax.swing.JTextField txtcodigobarra;
     private javax.swing.JTextArea txtdescripcion;
     public javax.swing.JTextField txtnombrecliente;
