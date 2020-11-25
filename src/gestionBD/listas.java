@@ -125,6 +125,129 @@ public class listas {
 
     }
 
+    public void mostrarPromosDesc(JTable jclientes, int descuento) {
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        DefaultTableModel modelocliente = new DefaultTableModel();
+
+        modelocliente.addColumn("Nombre Producto");
+
+        modelocliente.addColumn("Descuento");
+
+        String[] promos = new String[2];
+
+        jclientes.setModel(modelocliente);
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("select nombre_producto, nombre_promocion, descuento\n"
+                    + " from detalle_venta\n"
+                    + " inner join descuentos on detalle_venta.codigo_descuento = descuentos.codigo_descuento\n"
+                    + " inner join productos on detalle_venta.id_producto = productos.id_producto\n"
+                    + " inner join promociones on productos.codigo_promocion = promociones.codigo_promocion\n"
+                    + " where descuento = " + descuento + "");
+
+            while (rs.next()) {
+
+                promos[0] = rs.getString("nombre_producto");
+
+                promos[1] = rs.getString("descuento");
+
+                modelocliente.addRow(promos);
+            }
+            jclientes.setModel(modelocliente);
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+
+    }
+
+    public void mostrarPromos(JTable jclientes, int promo) {
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        DefaultTableModel modelocliente = new DefaultTableModel();
+
+        modelocliente.addColumn("Nombre Producto");
+
+        modelocliente.addColumn("Promocion");
+
+        String[] promos = new String[2];
+
+        jclientes.setModel(modelocliente);
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("select nombre_producto, nombre_promocion, descuento\n"
+                    + " from detalle_venta\n"
+                    + " inner join descuentos on detalle_venta.codigo_descuento = descuentos.codigo_descuento\n"
+                    + " inner join productos on detalle_venta.id_producto = productos.id_producto\n"
+                    + " inner join promociones on productos.codigo_promocion = promociones.codigo_promocion\n"
+                    + " where promociones.codigo_promocion = " + promo + "");
+
+            while (rs.next()) {
+
+                promos[0] = rs.getString("nombre_producto");
+
+                promos[1] = rs.getString("nombre_promocion");
+
+                modelocliente.addRow(promos);
+            }
+            jclientes.setModel(modelocliente);
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+
+    }
+
+    public void mostrarPromosDescAmbas(JTable jclientes, int promo, int desc) {
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        DefaultTableModel modelocliente = new DefaultTableModel();
+
+        modelocliente.addColumn("Nombre Producto");
+        modelocliente.addColumn("Promocion");
+        modelocliente.addColumn("Descuento");
+
+        String[] promos = new String[3];
+
+        jclientes.setModel(modelocliente);
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("select nombre_producto, nombre_promocion, descuento\n"
+                    + " from detalle_venta\n"
+                    + " inner join descuentos on detalle_venta.codigo_descuento = descuentos.codigo_descuento\n"
+                    + " inner join productos on detalle_venta.id_producto = productos.id_producto\n"
+                    + " inner join promociones on productos.codigo_promocion = promociones.codigo_promocion\n"
+                    + " where promociones.codigo_promocion = " + promo + " and descuento = " + desc + "");
+
+            while (rs.next()) {
+
+                promos[0] = rs.getString("nombre_producto");
+                promos[1] = rs.getString("nombre_promocion");
+                promos[2] = rs.getString("descuento");
+
+                modelocliente.addRow(promos);
+            }
+            jclientes.setModel(modelocliente);
+            Conexion.cerrar();
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+
+    }
+
     public int agregaproductos(String producto, JTable jagrega) {
         Principal ver = new Principal();
         Connection con = null;
