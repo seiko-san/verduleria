@@ -50,6 +50,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     DefaultListModel modelo = new DefaultListModel();
     listas lista = new listas();
 
+    int idVenta;
+    int codDesc = 1;
+
     public Principal() {
         initComponents();
         //   this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -91,6 +94,44 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
+    public void ConsultaId() {
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+        int resultado = 0;
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT codigo_venta From ventas order by  codigo_venta desc limit 1");
+
+            if (rs.next()) {
+                idVenta = rs.getInt("codigo_venta") + 1;
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void ConsultaDesc(double descuento) {
+
+        Connection con = null;
+        Statement stm;
+        ResultSet rs;
+
+        try {
+            con = Conexion.conectar();
+            stm = con.createStatement();
+            rs = stm.executeQuery("SELECT codigo_descuento From descuentos  where descuento=" + descuento + "");
+
+            if (rs.next()) {
+                codDesc = rs.getInt("codigo_descuento");
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
     public void ConsultaCliente(String rut_cliente, JTextField nomnbre_cliente, JTextField id_cliente) {
 
         Connection con = null;
@@ -127,7 +168,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         //p.setVisible(true);
                         NuevoCliente ver = new NuevoCliente();
                         ver.setVisible(true);
-                        this.setVisible(false);
+//                        this.setVisible(false);
                     }
 
                 }
@@ -139,7 +180,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion, JTextField nombrePromo) {
+    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion, JTextField nombrePromo , JTextField idprod) {
 
         Connection con = null;
         Statement stm;
@@ -151,7 +192,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             stm = con.createStatement();
             rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, "
                     + "nombre_producto , descripcion_producto , precio_neto , "
-                    + "nombre_promocion "
+                    + "nombre_promocion,id_producto "
                     + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
                     + "where  codigobarra_producto = '" + codigo_barra.getText() + "'");
 
@@ -177,6 +218,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     precio_final.setText(rs.getString(5));
                     descripcion.setText(rs.getString(3));
                     nombrePromo.setText(rs.getString(6));
+                    idprod.setText(rs.getString(7));
                 } else {
                     //JOptionPane.showMessageDialog(null, "No se encontro datos!");
                     JOptionPane.showMessageDialog(null, "No se encontraron referencias");
@@ -232,6 +274,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtdescripcion = new javax.swing.JTextArea();
         txtNombrePromo = new javax.swing.JTextField();
+        txtIdProd = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtrutcliente = new javax.swing.JTextField();
@@ -255,7 +298,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         cbxDesc = new javax.swing.JComboBox<>();
         btnCalcular = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAgregar = new javax.swing.JMenu();
         menuCliente = new javax.swing.JMenu();
@@ -453,7 +495,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                 .addComponent(jLabel12))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10))))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10)))))
                     .addComponent(txtsku, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -462,11 +506,11 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                             .addComponent(jcant, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtnomproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGap(0, 194, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
                         .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(139, 139, 139)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))))
         );
@@ -499,7 +543,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                         .addGap(133, 133, 133)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(btnagregap, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(txtNombrePromo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(0, 7, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -710,15 +755,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         jLabel16.setText("Verduras Chile S.A");
         jLabel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 204)));
 
-        jButton1.setBackground(new java.awt.Color(102, 255, 102));
-        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jButton1.setText("Cerrar Sesion");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -742,19 +778,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(22, 22, 22)))
+                        .addGap(22, 1530, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jButton1))
-                .addGap(27, 27, 27)
+                .addComponent(jLabel16)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -765,7 +797,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 204, 102));
@@ -884,7 +916,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
         String codigo_barra = txtcodigobarra.getText();
 //        int id_producto = Integer.parseInt(prod);
-        ConsultaProducto(txtcodigobarra, txtsku, txtnomproducto, txtprecio, txtdescripcion, txtNombrePromo);
+        ConsultaProducto(txtcodigobarra, txtsku, txtnomproducto, txtprecio, txtdescripcion, txtNombrePromo , txtIdProd);
 
     }//GEN-LAST:event_btnbuscaproductoActionPerformed
 
@@ -941,7 +973,9 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 //        listas list = new listas();
 //        list.agregaproductos(producto, jagrega);
 //        Object guarda = jcant.getValue();
-
+        ConsultaId();
+        System.out.println(idVenta);
+        
         int precio = Integer.parseInt(txtprecio.getText());
         int cantidad = Integer.parseInt(String.valueOf(jcant.getValue()));
         String promocion = txtNombrePromo.getText();
@@ -1005,11 +1039,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
     }//GEN-LAST:event_menusucursalMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void cbxDescMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxDescMouseClicked
 
 
@@ -1018,8 +1047,10 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         int totalDesc = Integer.parseInt(txtTotalSinDesc.getText());
         int totalPrecio = Integer.parseInt(txtTotalSinDesc.getText());
-        Double descuento = Double.parseDouble(String.valueOf(cbxDesc.getSelectedItem()));
+        double descuento = Double.parseDouble(String.valueOf(cbxDesc.getSelectedItem()));
 
+        ConsultaDesc(descuento);
+        System.out.println(codDesc);
         descuento = descuento / 100;
 
         totalDesc = (int) (totalDesc * descuento);
@@ -1033,15 +1064,23 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
 
+       
+        
         int codVendedor = Integer.parseInt(lblcodigo.getText());
         int idcliente = Integer.parseInt(txtIdcliente.getText());
         String fecha = lblfecha.getText();
         String hora = lblhora.getText();
-        
+        int idProd = Integer.parseInt(txtIdProd.getText());
         CrudVentas ventas = new CrudVentas();
-        
+
         ventas.ingresarProductos(codVendedor, idcliente, fecha, hora);
 
+        for (int i = 0; i < modelo1.getRowCount(); i++) {
+            
+            int cantidad = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
+            int total = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 4)));
+            ventas.ingresarProductosDetalle(idProd, idVenta, codDesc, cantidad, total);
+        }
 
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
@@ -1122,7 +1161,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton btnbuscaproducto;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JComboBox<String> cbxDesc;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1168,6 +1206,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menufecha;
     private javax.swing.JMenu menusucursal;
     private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtIdProd;
     private javax.swing.JTextField txtIdcliente;
     private javax.swing.JTextField txtNombrePromo;
     private javax.swing.JTextField txtPrecFinal;

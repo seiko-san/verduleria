@@ -30,25 +30,26 @@ public class listas {
         DefaultTableModel modeloventas = new DefaultTableModel();
 
         modeloventas.addColumn("folio");
+        modeloventas.addColumn("cod venta");
         modeloventas.addColumn("producto");
         modeloventas.addColumn("descuento");
         modeloventas.addColumn("cantidad");
         modeloventas.addColumn("total");
-        // modeloventas.addColumn("cod venta");
+
         modeloventas.addColumn("vendedor");
         modeloventas.addColumn("cliente");
         modeloventas.addColumn("fecha");
         modeloventas.addColumn("hora");
         modeloventas.addColumn("sucursal");
 
-        String[] ventas = new String[10];
+        String[] ventas = new String[11];
 
         jventas.setModel(modeloventas);
 
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("select detalle_venta.codigo_detalle_venta, productos.nombre_producto, \n"
+            rs = stm.executeQuery("select detalle_venta.codigo_detalle_venta,ventas.codigo_venta, productos.nombre_producto, \n"
                     + "descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,  \n"
                     + "vendedores.nombre_vendedor,  clientes.nombre_cliente, \n"
                     + "ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal\n"
@@ -63,15 +64,16 @@ public class listas {
             while (rs.next()) {
 
                 ventas[0] = rs.getString("detalle_venta.codigo_detalle_venta");
-                ventas[1] = rs.getString("productos.nombre_producto");
-                ventas[2] = rs.getString("descuentos.descuento");
-                ventas[3] = rs.getString("detalle_venta.cantidad");
-                ventas[4] = rs.getString("detalle_venta.total");
-                ventas[5] = rs.getString("vendedores.nombre_vendedor");
-                ventas[6] = rs.getString("clientes.nombre_cliente");
-                ventas[7] = rs.getString("ventas.fecha_venta");
-                ventas[8] = rs.getString("ventas.hora_venta");
-                ventas[9] = rs.getString("sucursales.nombre_sucursal");
+                ventas[1] = rs.getString("ventas.codigo_venta");
+                ventas[2] = rs.getString("productos.nombre_producto");
+                ventas[3] = rs.getString("descuentos.descuento");
+                ventas[4] = rs.getString("detalle_venta.cantidad");
+                ventas[5] = rs.getString("detalle_venta.total");
+                ventas[6] = rs.getString("vendedores.nombre_vendedor");
+                ventas[7] = rs.getString("clientes.nombre_cliente");
+                ventas[8] = rs.getString("ventas.fecha_venta");
+                ventas[9] = rs.getString("ventas.hora_venta");
+                ventas[10] = rs.getString("sucursales.nombre_sucursal");
 
                 modeloventas.addRow(ventas);
             }
@@ -142,9 +144,7 @@ public class listas {
         String[] productos = new String[6];
 
         jagrega.setModel(modeloagrega);
-        
-        
-        
+
         try {
 //            String valor  = (String) ver.jcant.getValue();
             con = Conexion.conectar();
@@ -153,9 +153,8 @@ public class listas {
                     + "productos.nombre_producto,productos.descripcion_producto,\n"
                     + "productos.precio_iva, promociones.nombre_promocion\n"
                     + " From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion \n"
-                    + " WHERE productos.codigobarra_producto = '"+producto+"'");
+                    + " WHERE productos.codigobarra_producto = '" + producto + "'");
 
-            
             while (rs.next()) {
 
                 productos[0] = rs.getString("productos.sku_producto");
@@ -176,7 +175,7 @@ public class listas {
         }
         return resultado;
     }
-    
+
     public void llenarCombobox(JComboBox cbxDesc) {
 
         Connection con = null;
@@ -200,6 +199,5 @@ public class listas {
         }
 
     }
-   
 
 }
