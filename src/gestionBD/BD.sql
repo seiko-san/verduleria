@@ -169,10 +169,10 @@ VALUES(1,'Sin Promocion',0),(2,'Promocion 2x1',50);
 -- Insert Ventas
 -- -----------------------------------------------------
 INSERT INTO ventas(`codigo_vendedor`,`id_cliente`,`fecha_venta`,`hora_venta`)
-VALUES('1',1,'2000-01-01','05:05:00'),('1',2,'2000-01-01','05:05:00'),('1',1,'2000-01-03','05:05:00'),('1',1,'2000-02-01','05:05:00'),
+VALUES('1',1,'0000-00-00','05:05:00'),('1',2,'2000-01-01','05:05:00'),('1',1,'2000-01-03','05:05:00'),('1',1,'2000-02-01','05:05:00'),
 ('1',1,'2000-01-02','05:05:00'),('1',1,'2000-01-11','05:05:00'),('1',1,'2000-01-11','05:05:00'),('1',1,'2000-01-08','05:05:00');
 
-
+select * from ventas;
 -- -----------------------------------------------------
 -- Insert Productos
 -- -----------------------------------------------------
@@ -230,11 +230,55 @@ From productos
 join promociones on productos.codigo_promocion = promociones.codigo_promocion 
 where  codigobarra_producto like '06-LE' and  sku_producto  like 'VAPO%'
 
+SELECT sku_producto ,codigobarra_producto, 
+nombre_producto , descripcion_producto , precio_neto , nombre_promocion
+From productos 
+join promociones on productos.codigo_promocion = promociones.codigo_promocion 
+where  codigobarra_producto = '06-LE' 
+
+
+
 select * from vendedores where nombre_vendedor like 'Pedr%' 
 
 
+select * from ventas
 
-
-
+ 
+ 
+ select * from detalle_venta;
+ 
+ 
+ select detalle_venta.codigo_detalle_venta,ventas.codigo_venta, productos.nombre_producto,
+descuentos.descuento, detalle_venta.cantidad,  detalle_venta.total,
+vendedores.nombre_vendedor,  clientes.nombre_cliente, 
+ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal
+FROM detalle_venta
+JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta
+JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente
+JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor 
+join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal
+JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento
+JOIN Productos ON detalle_venta.id_producto = Productos.id_producto
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 SET FOREIGN_KEY_CHECKS = 1;

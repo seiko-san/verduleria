@@ -74,7 +74,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         modelo1.addColumn("promocion");
         // setDefaultCloseOperation(0);
         txtIdcliente.setVisible(false);
-        txtIdProd.setVisible(true);
+        txtIdProd.setVisible(false);
         txtNombrePromo.setVisible(false);
         cbxDesc.setVisible(false);
         btnCalcular.setVisible(false);

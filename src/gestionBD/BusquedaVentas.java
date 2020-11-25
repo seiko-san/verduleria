@@ -53,11 +53,12 @@ public class BusquedaVentas {
         ResultSet rs;
 
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre Producto");
-        modelo.addColumn("Cantidad Venta");
-        modelo.addColumn("Precio Unitario");
-        modelo.addColumn("Precio Total");
-
+//        modelo.addColumn("Nombre Producto");
+//        modelo.addColumn("Cantidad Venta");
+//        modelo.addColumn("Precio Unitario");
+//        modelo.addColumn("Precio Total");
+        modelo.addColumn("Cantidad Total");
+        modelo.addColumn("Precio Total Venta");
         String[] MayorVentaFecha = new String[6];
 
         jtventastiendas.setModel(modelo);
@@ -65,10 +66,7 @@ public class BusquedaVentas {
         try {
             con = Conexion.conectar();
             stm = con.createStatement();
-            rs = stm.executeQuery("select  productos.nombre_producto, \n"
-                    + "descuentos.descuento, SUM(detalle_venta.cantidad), detalle_venta.total,  SUM(detalle_venta.total),\n"
-                    + "vendedores.nombre_vendedor,  clientes.nombre_cliente,\n"
-                    + "ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal\n"
+            rs = stm.executeQuery("select  SUM(detalle_venta.cantidad), SUM(detalle_venta.total)\n"
                     + "FROM detalle_venta\n"
                     + "JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta\n"
                     + "JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente\n"
@@ -76,14 +74,28 @@ public class BusquedaVentas {
                     + "join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal\n"
                     + "JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento\n"
                     + "JOIN Productos ON detalle_venta.id_producto = Productos.id_producto\n"
-                    + "where sucursales.nombre_sucursal = '"+ Sucursal +"' GROUP BY Productos.nombre_producto;");
+                    + "where sucursales.nombre_sucursal = '" + Sucursal + "' ;");
+//            rs = stm.executeQuery("select  productos.nombre_producto, \n"
+//                    + "descuentos.descuento, SUM(detalle_venta.cantidad), detalle_venta.total,  SUM(detalle_venta.total),\n"
+//                    + "vendedores.nombre_vendedor,  clientes.nombre_cliente,\n"
+//                    + "ventas.fecha_venta, ventas.hora_venta, sucursales.nombre_sucursal\n"
+//                    + "FROM detalle_venta\n"
+//                    + "JOIN ventas ON detalle_venta.codigo_venta = ventas.codigo_venta\n"
+//                    + "JOIN Clientes ON ventas.id_cliente = Clientes.id_cliente\n"
+//                    + "JOIN Vendedores ON ventas.codigo_vendedor = Vendedores.codigo_vendedor\n"
+//                    + "join sucursales ON  vendedores.codigo_sucursal = sucursales.codigo_sucursal\n"
+//                    + "JOIN Descuentos ON detalle_venta.codigo_descuento = Descuentos.codigo_descuento\n"
+//                    + "JOIN Productos ON detalle_venta.id_producto = Productos.id_producto\n"
+//                    + "where sucursales.nombre_sucursal = '"+ Sucursal +"' GROUP BY Productos.nombre_producto;");
 
             while (rs.next()) {
 
-                MayorVentaFecha[0] = rs.getString("nombre_producto");
-                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");   
-                MayorVentaFecha[2] = rs.getString("total");
-                MayorVentaFecha[3] = rs.getString("SUM(detalle_venta.total)");
+                MayorVentaFecha[0] = rs.getString("SUM(detalle_venta.cantidad)");
+                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.total)");
+//                MayorVentaFecha[0] = rs.getString("nombre_producto");
+//                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");   
+//                MayorVentaFecha[2] = rs.getString("total");
+//                MayorVentaFecha[3] = rs.getString("SUM(detalle_venta.total)");
 
                 modelo.addRow(MayorVentaFecha);
             }
