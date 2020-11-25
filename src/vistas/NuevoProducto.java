@@ -180,13 +180,10 @@ public class NuevoProducto extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(307, 307, 307)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGap(307, 307, 307)
-                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addContainerGap()
@@ -308,7 +305,6 @@ public class NuevoProducto extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 102, 102));
         jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jButton1.setText("Cerrar");
-        jButton1.setActionCommand("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -336,8 +332,7 @@ public class NuevoProducto extends javax.swing.JFrame {
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1344, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 24, Short.MAX_VALUE))))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,11 +354,9 @@ public class NuevoProducto extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1368, Short.MAX_VALUE)
+            .addGap(0, 1380, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +373,16 @@ public class NuevoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSkuActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+        try{
+            String skupro =txtSku.getText();
+        String codpro=txtCodigoProd.getText();
+        String nombpro =txtNombreProd.getText();
+        String descpro=txtDesc.getText();
+        String precpro=txtPrecio.getText();
+        String ivapro=txtIva.getText();
+            if(skupro.isEmpty() || codpro.isEmpty() || nombpro.isEmpty() ||descpro.isEmpty() || precpro.isEmpty() || ivapro.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Debe completar todos los campos","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }else{
         Date fecha = new Date();
         DateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -413,11 +415,13 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtId.setText("");
         txtIva.setText("");
 
-
+            }}catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Debe llenar todos datos","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
+        try{
         Date fecha = new Date();
         DateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -453,12 +457,13 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtDesc.setText("");
         txtIva.setText("");
-
-        // txtPromo.setText("");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila","Error",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-
+        try{
         productos.setId(Integer.parseInt(txtId.getText()));
 
         crudProd.eliminarProd(productos.getId());
@@ -471,7 +476,9 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtDesc.setText("");
         txtId.setText("");
         txtIva.setText("");
-        // txtPromo.setText("");
+        }catch(Exception e ){
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila","Error",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void jtProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProductosMouseClicked

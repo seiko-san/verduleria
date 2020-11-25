@@ -321,7 +321,15 @@ public class NuevoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jtaddclienteMouseClicked
 
     private void btneliminarclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarclienteActionPerformed
-
+        try{
+            String rut =txta_rutcliente.getText();
+        String nomcli =txta_nombrecliente.getText();
+        String corrcli =txta_correocliente.getText();
+        String telcli=txta_telefonocliente.getText();
+        String dircli=txta_direccioncliente.getText();
+            if(rut.isEmpty() || nomcli.isEmpty() || corrcli.isEmpty() ||telcli.isEmpty() || dircli.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Debe completar todos los campos","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
         clientes.setRut_cliente(txta_idcliente.getText());
 
         crudCli.eliminarCliente(clientes.getRut_cliente());
@@ -333,10 +341,13 @@ public class NuevoCliente extends javax.swing.JFrame {
         txta_correocliente.setText("");
         txta_telefonocliente.setText("");
         txta_direccioncliente.setText("");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btneliminarclienteActionPerformed
 
     private void btnmodificarclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarclienteActionPerformed
-
+        try{
         clientes.setId_cliente(Integer.parseInt(txta_idcliente.getText()));
         clientes.setRut_cliente(txta_rutcliente.getText());
         clientes.setNombre_cliente(txta_nombrecliente.getText());
@@ -356,11 +367,21 @@ public class NuevoCliente extends javax.swing.JFrame {
         txta_correocliente.setText("");
         txta_telefonocliente.setText("");
         txta_direccioncliente.setText("");
-
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnmodificarclienteActionPerformed
 
     private void btnagregarclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarclienteActionPerformed
-
+        try{
+            String rut =txta_rutcliente.getText();
+        String nomcli =txta_nombrecliente.getText();
+        String corrcli =txta_correocliente.getText();
+        String telcli=txta_telefonocliente.getText();
+        String dircli=txta_direccioncliente.getText();
+            if(rut.isEmpty() || nomcli.isEmpty() || corrcli.isEmpty() ||telcli.isEmpty() || dircli.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Debe completar todos los campos","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }else{
         clientes.setRut_cliente(txta_rutcliente.getText());
         clientes.setNombre_cliente(txta_nombrecliente.getText());
         clientes.setCorreo_cliente(txta_correocliente.getText());
@@ -378,7 +399,9 @@ public class NuevoCliente extends javax.swing.JFrame {
         txta_correocliente.setText("");
         txta_telefonocliente.setText("");
         txta_direccioncliente.setText("");
-
+        }}catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debes rellenar los datos","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnagregarclienteActionPerformed
 
     /**

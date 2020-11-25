@@ -21,7 +21,7 @@ import vistas.Principal;
 public class IngresoLogin {
     public String nombre = "";
     public void llenarCombobox(JComboBox cbxSucursal) {
-
+        try{
         Connection con = null;
         Statement stm;
         ResultSet rs;
@@ -42,7 +42,9 @@ public class IngresoLogin {
             System.out.println(e.getMessage());
         }
 
-    }
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(null,"Debe conectar su base de datos","Error" ,JOptionPane.WARNING_MESSAGE);
+    }}
 
     public int validarIngreso(String usuario, String sucursal) {
 

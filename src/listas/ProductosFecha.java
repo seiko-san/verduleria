@@ -199,7 +199,7 @@ public class ProductosFecha extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,21 +215,22 @@ public class ProductosFecha extends javax.swing.JFrame {
     
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
 
+        try{
         MostrarRangoFecha mostrar = new MostrarRangoFecha();
 
-        //Formato fecha
         SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
 
         if (jd_fechainicio.getDate() == null || jd_fechafinal.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Debes Ingresar Fecha Inicio y Termino");
+            JOptionPane.showMessageDialog(null, "Debes Ingresar Fecha Inicio y Termino","Advertencia",JOptionPane.WARNING_MESSAGE);
         } else {
-            //Fecha Inicio - Final
             String f_inicio = fecha.format(jd_fechainicio.getDate());
             String f_final = fecha.format(jd_fechafinal.getDate());
             mostrar.ConsultaProductoFecha(f_inicio, f_final, jtmostrar_productos);
         }
 
-
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debes Ingresar Fecha Inicio y Fecha Termino","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnbuscarActionPerformed
 

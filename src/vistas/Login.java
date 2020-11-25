@@ -148,7 +148,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtUsuarioActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-
+try{
         Principal principal = new Principal();
         IngresoLogin ingreso = new IngresoLogin();
 
@@ -161,7 +161,7 @@ public class Login extends javax.swing.JFrame {
             ver.setVisible(true);
             this.setVisible(false);
         } else {
-            JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
+            JOptionPane.showMessageDialog(null, "El usuario no Corresponde a Sucursal\n o es incorrecto","Error",JOptionPane.WARNING_MESSAGE);
         }
 
         String cod = jtxtUsuario.getText();
@@ -169,6 +169,9 @@ public class Login extends javax.swing.JFrame {
         String suc = cbxSucursal.getSelectedItem().toString();
         ver.lblsucursal.setText(suc);
         ver.lblvendedor.setText(ingreso.nombre);
+}catch(Exception e){
+    JOptionPane.showMessageDialog(null, "Debes rellenar los datos","Advertencia",JOptionPane.WARNING_MESSAGE);
+}
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void cbxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSucursalActionPerformed
