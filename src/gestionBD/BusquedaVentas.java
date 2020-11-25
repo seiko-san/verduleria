@@ -81,7 +81,7 @@ public class BusquedaVentas {
             while (rs.next()) {
 
                 MayorVentaFecha[0] = rs.getString("nombre_producto");
-                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");
+                MayorVentaFecha[1] = rs.getString("SUM(detalle_venta.cantidad)");   
                 MayorVentaFecha[2] = rs.getString("total");
                 MayorVentaFecha[3] = rs.getString("SUM(detalle_venta.total)");
 

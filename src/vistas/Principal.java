@@ -64,6 +64,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         llenarlista();
         this.setResizable(false);
         this.jagrega.setModel(modelo1);
+        modelo1.addColumn("Id producto");
         modelo1.addColumn("Sku producto");
         modelo1.addColumn("codigo de Barra");
         modelo1.addColumn("Producto");
@@ -73,7 +74,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         modelo1.addColumn("promocion");
         // setDefaultCloseOperation(0);
         txtIdcliente.setVisible(false);
-        txtIdProd.setVisible(false);
+        txtIdProd.setVisible(true);
         txtNombrePromo.setVisible(false);
         cbxDesc.setVisible(false);
         btnCalcular.setVisible(false);
@@ -150,7 +151,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             rs = stm.executeQuery("SELECT * From Clientes where  rut_cliente = '" + rut_cliente + "'");
 
             if (rut_cliente.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debes rellenar datos!","Advertencia",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Debes rellenar datos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 if (rs.next()) {
@@ -164,7 +165,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
                         NuevoCliente ver = new NuevoCliente();
                         ver.setVisible(true);
-                      }
+                    }
 
                 }
             }
@@ -175,7 +176,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion, JTextField nombrePromo , JTextField idprod) {
+    public void ConsultaProducto(JTextField codigo_barra, JTextField sku_producto, JTextField nombre_producto, JTextField precio_final, JTextArea descripcion, JTextField nombrePromo, JTextField idprod) {
 
         Connection con = null;
         Statement stm;
@@ -191,7 +192,6 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
                     + "where  codigobarra_producto = '" + codigo_barra.getText() + "'");
 
-
             if (codigo_barra == null) {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
             } else {
@@ -204,8 +204,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                     nombrePromo.setText(rs.getString(6));
                     idprod.setText(rs.getString(7));
                 } else {
-                    JOptionPane.showMessageDialog(null, "No se encontraron referencias","Advertencia",JOptionPane.WARNING_MESSAGE);
-                   
+                    JOptionPane.showMessageDialog(null, "No se encontraron referencias", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
                 }
             }
             Conexion.cerrar();
@@ -915,18 +915,18 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private void btnbuscaclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaclienteActionPerformed
 
         String rut = txtrutcliente.getText();
-        
+
         ConsultaCliente(rut, txtnombrecliente, txtIdcliente);
 
     }//GEN-LAST:event_btnbuscaclienteActionPerformed
 
     private void btnbuscaproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaproductoActionPerformed
-        try{
-        String codigo_barra = txtcodigobarra.getText();
+        try {
+            String codigo_barra = txtcodigobarra.getText();
 //        int id_producto = Integer.parseInt(prod);
-        ConsultaProducto(txtcodigobarra, txtsku, txtnomproducto, txtprecio, txtdescripcion, txtNombrePromo , txtIdProd);
-        }catch(Exception e){
-            
+            ConsultaProducto(txtcodigobarra, txtsku, txtnomproducto, txtprecio, txtdescripcion, txtNombrePromo, txtIdProd);
+        } catch (Exception e) {
+
         }
     }//GEN-LAST:event_btnbuscaproductoActionPerformed
 
@@ -979,61 +979,62 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_txtnomproductoActionPerformed
 
     private void btnagregapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregapActionPerformed
-        
-try{
-        ConsultaId();
-        System.out.println(idVenta);
-        
-        int precio = Integer.parseInt(txtprecio.getText());
-        int cantidad = Integer.parseInt(String.valueOf(jcant.getValue()));
-        String promocion = txtNombrePromo.getText();
 
-        if (cantidad == 2 && promocion.equals("Promocion 2x1")) {
+        try {
+            ConsultaId();
+            System.out.println(idVenta);
 
-            precio = (precio * cantidad) - precio;
+            int precio = Integer.parseInt(txtprecio.getText());
+            int cantidad = Integer.parseInt(String.valueOf(jcant.getValue()));
+            String promocion = txtNombrePromo.getText();
 
-        } else if (cantidad == 3 && promocion.equals("Promocion 3x1")) {
+            if (cantidad == 2 && promocion.equals("Promocion 2x1")) {
 
-            precio = (precio * cantidad) - precio;
+                precio = (precio * cantidad) - precio;
 
-        } else {
-            precio = precio * cantidad;
+            } else if (cantidad == 3 && promocion.equals("Promocion 3x1")) {
+
+                precio = (precio * cantidad) - precio;
+
+            } else {
+                precio = precio * cantidad;
+            }
+
+            this.modelo1.addRow(new Object[]{txtIdProd.getText() ,txtsku.getText(), txtcodigobarra.getText(), txtdescripcion.getText(), txtnomproducto.getText(), precio, jcant.getValue(), txtNombrePromo.getText()});
+
+            int cantidadFinal = 0;
+            int totalPrec = 0;
+            for (int i = 0; i < modelo1.getRowCount(); i++) {
+                int cantidadDesc = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 6)));
+
+                cantidadFinal = cantidadDesc + cantidadFinal;
+
+                int precioTotal = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
+
+                totalPrec = precioTotal + totalPrec;
+
+            }
+            txtTotalSinDesc.setText(String.valueOf(totalPrec));
+            cbxDesc.setEnabled(false);
+
+            if (cantidadFinal >= 20) {
+
+                cbxDesc.setEnabled(true);
+                cbxDesc.setVisible(true);
+                btnCalcular.setVisible(true);
+            }
+
+            //int pguarda = Integer.parseInt((String) guarda);
+            txtcodigobarra.setText("");
+            txtsku.setText("");
+            txtdescripcion.setText("");
+            txtnomproducto.setText("");
+            txtprecio.setText("");
+            jcant.setValue(0);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe completar todos datos", "Error", JOptionPane.WARNING_MESSAGE);
+            e.printStackTrace();
         }
-
-        this.modelo1.addRow(new Object[]{txtsku.getText(), txtcodigobarra.getText(), txtdescripcion.getText(), txtnomproducto.getText(), precio, jcant.getValue(), txtNombrePromo.getText()});
-
-        int cantidadFinal = 0;
-        int totalPrec = 0;
-        for (int i = 0; i < modelo1.getRowCount(); i++) {
-            int cantidadDesc = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
-
-            cantidadFinal = cantidadDesc + cantidadFinal;
-
-            int precioTotal = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 4)));
-
-            totalPrec = precioTotal + totalPrec;
-
-        }
-        txtTotalSinDesc.setText(String.valueOf(totalPrec));
-        cbxDesc.setEnabled(false);
-
-        if (cantidadFinal >= 20) {
-
-            cbxDesc.setEnabled(true);
-            cbxDesc.setVisible(true);
-            btnCalcular.setVisible(true);
-        }
-
-        //int pguarda = Integer.parseInt((String) guarda);
-        txtcodigobarra.setText("");
-        txtsku.setText("");
-        txtdescripcion.setText("");
-        txtnomproducto.setText("");
-        txtprecio.setText("");
-        jcant.setValue(0);
-}catch(Exception e){
-    JOptionPane.showMessageDialog(null,"Debe completar todos datos","Error",JOptionPane.WARNING_MESSAGE);
-}
 
     }//GEN-LAST:event_btnagregapActionPerformed
 
@@ -1057,57 +1058,60 @@ try{
     }//GEN-LAST:event_cbxDescMouseClicked
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        try{
-        int totalDesc = Integer.parseInt(txtTotalSinDesc.getText());
-        int totalPrecio = Integer.parseInt(txtTotalSinDesc.getText());
-        double descuento = Double.parseDouble(String.valueOf(cbxDesc.getSelectedItem()));
+        try {
+            int totalDesc = Integer.parseInt(txtTotalSinDesc.getText());
+            int totalPrecio = Integer.parseInt(txtTotalSinDesc.getText());
+            double descuento = Double.parseDouble(String.valueOf(cbxDesc.getSelectedItem()));
 
-        ConsultaDesc(descuento);
-        System.out.println(codDesc);
-        descuento = descuento / 100;
+            ConsultaDesc(descuento);
+            System.out.println(codDesc);
+            descuento = descuento / 100;
 
-        totalDesc = (int) (totalDesc * descuento);
+            totalDesc = (int) (totalDesc * descuento);
 
-        totalPrecio = totalPrecio - totalDesc;
-        txtDesc.setText(String.valueOf(totalDesc));
-        txtPrecFinal.setText(String.valueOf(totalPrecio));
+            totalPrecio = totalPrecio - totalDesc;
+            txtDesc.setText(String.valueOf(totalDesc));
+            txtPrecFinal.setText(String.valueOf(totalPrecio));
 
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Debe seleccionar un Descuento","Error",JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Descuento", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
 
-       try{
-        
-        int codVendedor = Integer.parseInt(lblcodigo.getText());
-        int idcliente = Integer.parseInt(txtIdcliente.getText());
-        String fecha = lblfecha.getText();
-        String hora = lblhora.getText();
-        int idProd = Integer.parseInt(txtIdProd.getText());
-        CrudVentas ventas = new CrudVentas();
+        try {
 
-        ventas.ingresarProductos(codVendedor, idcliente, fecha, hora);
+            int codVendedor = Integer.parseInt(lblcodigo.getText());
+            int idcliente = Integer.parseInt(txtIdcliente.getText());
+            String fecha = lblfecha.getText();
+            String hora = lblhora.getText();
+            int idProd = Integer.parseInt(txtIdProd.getText());
+            CrudVentas ventas = new CrudVentas();
 
-        for (int i = 0; i < modelo1.getRowCount(); i++) {
-            
-            int cantidad = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
-            int total = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 4)));
-            ventas.ingresarProductosDetalle(idProd, idVenta, codDesc, cantidad, total);
+            ventas.ingresarProductos(codVendedor, idcliente, fecha, hora);
+
+            for (int i = 0; i < modelo1.getRowCount(); i++) {
+
+                int cantidad = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 6)));
+                int total = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 5)));
+                int id = Integer.parseInt(String.valueOf(modelo1.getValueAt(i, 0)));
+                ventas.ingresarProductosDetalle(id, idVenta, codDesc, cantidad, total);
+
+                System.out.println(idProd);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
         }
-       }catch(Exception e){
-           JOptionPane.showMessageDialog(null,"Debes completar todos los campos","Error",JOptionPane.WARNING_MESSAGE);
-       }
 
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-      
-        try{
-        modelo1.removeRow(jagrega.getSelectedRow());
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila","Advertencia",JOptionPane.WARNING_MESSAGE);
+
+        try {
+            modelo1.removeRow(jagrega.getSelectedRow());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
