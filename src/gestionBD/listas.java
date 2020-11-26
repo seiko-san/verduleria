@@ -236,7 +236,7 @@ public class listas {
         DefaultTableModel modelocliente = new DefaultTableModel();
 
         modelocliente.addColumn("Nombre Producto");
-
+        
         modelocliente.addColumn("Promocion");
 
         String[] promos = new String[2];
@@ -256,8 +256,8 @@ public class listas {
             while (rs.next()) {
 
                 promos[0] = rs.getString("nombre_producto");
-
                 promos[1] = rs.getString("nombre_promocion");
+                
 
                 modelocliente.addRow(promos);
             }

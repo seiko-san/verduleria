@@ -1117,6 +1117,8 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
         }
+        cbxDesc.setVisible(false);
+        btnCalcular.setVisible(false);
         modelo1.setRowCount(0);
         txtDesc.setText("");
         txtTotalSinDesc.setText("");

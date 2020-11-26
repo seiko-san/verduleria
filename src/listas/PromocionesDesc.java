@@ -94,7 +94,7 @@ public class PromocionesDesc extends javax.swing.JFrame {
 
         jLabel2.setText("Codigo Promocion");
 
-        jLabel3.setText("Codigo Descuento");
+        jLabel3.setText("Descuento");
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
