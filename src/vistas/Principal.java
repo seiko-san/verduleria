@@ -78,6 +78,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         txtNombrePromo.setVisible(false);
         cbxDesc.setVisible(false);
         btnCalcular.setVisible(false);
+        jcant.setValue(1);
     }
 
     DefaultTableModel modelo1 = new DefaultTableModel();
