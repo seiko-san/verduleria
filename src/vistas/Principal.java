@@ -33,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import listas.Clientes;
 import listas.Ventas;
 import listas.ProductosFecha;
+import listas.PromocionesDesc;
 import listas.VentasTiendas;
 
 /**
@@ -289,6 +290,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         menuclientes = new javax.swing.JMenu();
         menufecha = new javax.swing.JMenu();
         menusucursal = new javax.swing.JMenu();
+        menuPromos = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -895,6 +897,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         });
         menuListar.add(menusucursal);
 
+        menuPromos.setText("Promociones");
+        menuPromos.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        menuPromos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuPromosMouseClicked(evt);
+            }
+        });
+        menuListar.add(menuPromos);
+
         jMenuBar1.add(menuListar);
 
         setJMenuBar(jMenuBar1);
@@ -1122,6 +1133,16 @@ public class Principal extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void menuPromosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPromosMouseClicked
+       PromocionesDesc promo = new PromocionesDesc();
+       
+       promo.setVisible(true);
+       
+        
+        
+        
+    }//GEN-LAST:event_menuPromosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1239,6 +1260,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenu menuCliente;
     private javax.swing.JMenu menuListar;
     private javax.swing.JMenu menuProducto;
+    private javax.swing.JMenu menuPromos;
     private javax.swing.JMenu menuVentas;
     private javax.swing.JMenu menuclientes;
     private javax.swing.JMenu menufecha;
