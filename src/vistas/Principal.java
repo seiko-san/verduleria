@@ -189,7 +189,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
             con = Conexion.conectar();
             stm = con.createStatement();
             rs = stm.executeQuery("SELECT sku_producto ,codigobarra_producto, "
-                    + "nombre_producto , descripcion_producto , precio_neto , "
+                    + "nombre_producto , descripcion_producto , precio_iva , "
                     + "nombre_promocion,id_producto "
                     + "From productos join promociones on productos.codigo_promocion = promociones.codigo_promocion "
                     + "where  codigobarra_producto = '" + codigo_barra.getText() + "'");
