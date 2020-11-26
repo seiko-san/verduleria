@@ -196,7 +196,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 JOptionPane.showMessageDialog(null, "Debes rellenar datos!");
             } else {
 
-                if (rs.next()) {
+                if (rs.next()) {    
                     sku_producto.setText(rs.getString(1));
                     nombre_producto.setText(rs.getString(3));
                     precio_final.setText(rs.getString(5));
@@ -994,7 +994,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
             } else if (cantidad == 3 && promocion.equals("Promocion 3x1")) {
 
-                precio = (precio * cantidad) - precio;
+                precio = (precio * cantidad) - (precio*2);
 
             } else {
                 precio = precio * cantidad;
@@ -1023,7 +1023,7 @@ public class Principal extends javax.swing.JFrame implements Runnable {
                 cbxDesc.setVisible(true);
                 btnCalcular.setVisible(true);
             }
-
+            
             //int pguarda = Integer.parseInt((String) guarda);
             txtcodigobarra.setText("");
             txtsku.setText("");
@@ -1100,9 +1100,15 @@ public class Principal extends javax.swing.JFrame implements Runnable {
 
                 System.out.println(idProd);
             }
+            
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
         }
+        modelo1.setRowCount(0);
+        txtDesc.setText("");
+        txtTotalSinDesc.setText("");
+        txtPrecFinal.setText("");
 
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 

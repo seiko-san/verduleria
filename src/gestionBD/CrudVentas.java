@@ -60,7 +60,7 @@ public class CrudVentas {
 
             if (resultUpdate != 0) {
                 Conexion.cerrar();
-                JOptionPane.showMessageDialog(null, "La compra se realizo exito");
+                
                 return true;
             } else {
                 return false;
